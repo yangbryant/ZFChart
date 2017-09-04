@@ -25,6 +25,8 @@ NSInteger const ZFPieChartPercentLabelTag = 100;
 
 NSString * const ZFLineChartXPos = @"ZFLineChartXPos";
 NSString * const ZFLineChartYPos = @"ZFLineChartYPos";
+NSString * const ZFLineChartMinYPos = @"ZFLineChartMinYPos";
+NSString * const ZFLineChartMaxYPos = @"ZFLineChartMaxYPos";
 NSString * const ZFLineChartIsHeightEqualZero = @"ZFLineChartIsHeightEqualZero";
 
 NSString * const ZFWaveChartXPos = @"ZFWaveChartXPos";

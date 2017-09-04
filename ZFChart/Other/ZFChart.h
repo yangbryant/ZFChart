@@ -10,6 +10,7 @@
 #import "ZFColor.h"
 #import "ZFBarChart.h"
 #import "ZFLineChart.h"
+#import "ZFCandleChart.h"
 #import "ZFPieChart.h"
 #import "ZFWaveChart.h"
 #import "ZFHorizontalBarChart.h"

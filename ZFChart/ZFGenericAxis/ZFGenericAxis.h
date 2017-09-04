@@ -30,6 +30,10 @@
 @property (nonatomic, strong) ZFYAxisLine * yAxisLine;
 /** x轴数值数组 */
 @property (nonatomic, strong) NSMutableArray * xLineValueArray;
+/** x轴最大值数值数组 (烛台图专用) */
+@property (nonatomic, strong) NSMutableArray * xMaxValueArray;
+/** x轴最小值数值数组 (烛台图专用) */
+@property (nonatomic, strong) NSMutableArray * xMinValueArray;
 /** x轴名字数组 */
 @property (nonatomic, strong) NSMutableArray * xLineNameArray;
 /** y轴数值显示的最大值 */

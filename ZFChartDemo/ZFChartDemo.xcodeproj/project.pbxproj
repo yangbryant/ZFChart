@@ -58,6 +58,9 @@
 		4B6E0B3B1F5D20340060A2E7 /* SingleRadarChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B6E0B2C1F5D20330060A2E7 /* SingleRadarChartViewController.m */; };
 		4B6E0B3C1F5D20340060A2E7 /* TableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B6E0B2E1F5D20330060A2E7 /* TableViewController.m */; };
 		4B6E0B3D1F5D20340060A2E7 /* WaveChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B6E0B301F5D20330060A2E7 /* WaveChartViewController.m */; };
+		4B6E0B431F5D36120060A2E7 /* ZFCandle.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B6E0B401F5D36120060A2E7 /* ZFCandle.m */; };
+		4B6E0B441F5D36120060A2E7 /* ZFCandleChart.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B6E0B421F5D36120060A2E7 /* ZFCandleChart.m */; };
+		4B6E0B471F5D3BE30060A2E7 /* CandleChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B6E0B461F5D3BE30060A2E7 /* CandleChartViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -163,6 +166,12 @@
 		4B6E0B2E1F5D20330060A2E7 /* TableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableViewController.m; sourceTree = "<group>"; };
 		4B6E0B2F1F5D20330060A2E7 /* WaveChartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WaveChartViewController.h; sourceTree = "<group>"; };
 		4B6E0B301F5D20330060A2E7 /* WaveChartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WaveChartViewController.m; sourceTree = "<group>"; };
+		4B6E0B3F1F5D36120060A2E7 /* ZFCandle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZFCandle.h; sourceTree = "<group>"; };
+		4B6E0B401F5D36120060A2E7 /* ZFCandle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZFCandle.m; sourceTree = "<group>"; };
+		4B6E0B411F5D36120060A2E7 /* ZFCandleChart.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZFCandleChart.h; sourceTree = "<group>"; };
+		4B6E0B421F5D36120060A2E7 /* ZFCandleChart.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZFCandleChart.m; sourceTree = "<group>"; };
+		4B6E0B451F5D3BE30060A2E7 /* CandleChartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CandleChartViewController.h; sourceTree = "<group>"; };
+		4B6E0B461F5D3BE30060A2E7 /* CandleChartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CandleChartViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -230,6 +239,7 @@
 				4B6E0AD31F5D202B0060A2E7 /* ZFHorizontalAxis */,
 				4B6E0AD61F5D202B0060A2E7 /* ZFHorizontalBarChart */,
 				4B6E0ADB1F5D202B0060A2E7 /* ZFLineChart */,
+				4B6E0B3E1F5D36120060A2E7 /* ZFCandleChart */,
 				4B6E0AE21F5D202B0060A2E7 /* ZFPieChart */,
 				4B6E0AE91F5D202B0060A2E7 /* ZFRadarChart */,
 				4B6E0AF01F5D202B0060A2E7 /* ZFWaveChart */,
@@ -433,8 +443,21 @@
 				4B6E0B2E1F5D20330060A2E7 /* TableViewController.m */,
 				4B6E0B2F1F5D20330060A2E7 /* WaveChartViewController.h */,
 				4B6E0B301F5D20330060A2E7 /* WaveChartViewController.m */,
+				4B6E0B451F5D3BE30060A2E7 /* CandleChartViewController.h */,
+				4B6E0B461F5D3BE30060A2E7 /* CandleChartViewController.m */,
 			);
 			path = ViewController;
+			sourceTree = "<group>";
+		};
+		4B6E0B3E1F5D36120060A2E7 /* ZFCandleChart */ = {
+			isa = PBXGroup;
+			children = (
+				4B6E0B3F1F5D36120060A2E7 /* ZFCandle.h */,
+				4B6E0B401F5D36120060A2E7 /* ZFCandle.m */,
+				4B6E0B411F5D36120060A2E7 /* ZFCandleChart.h */,
+				4B6E0B421F5D36120060A2E7 /* ZFCandleChart.m */,
+			);
+			path = ZFCandleChart;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -511,6 +534,7 @@
 			files = (
 				4B6E0B351F5D20330060A2E7 /* MultiRadarChartViewController.m in Sources */,
 				4B6E0B361F5D20330060A2E7 /* PieChartViewController.m in Sources */,
+				4B6E0B471F5D3BE30060A2E7 /* CandleChartViewController.m in Sources */,
 				4B6E0AF71F5D202B0060A2E7 /* UIBezierPath+Zirkfied.m in Sources */,
 				4B6E0B091F5D202B0060A2E7 /* ZFHorizontalBar.m in Sources */,
 				4B6E0B0A1F5D202B0060A2E7 /* ZFHorizontalBarChart.m in Sources */,
@@ -526,6 +550,7 @@
 				4B6E0AFF1F5D202B0060A2E7 /* ZFGradientAttribute.m in Sources */,
 				4B6E0B381F5D20340060A2E7 /* SingleCirqueChartViewController.m in Sources */,
 				4B6E0B011F5D202B0060A2E7 /* ZFMethod.m in Sources */,
+				4B6E0B441F5D36120060A2E7 /* ZFCandleChart.m in Sources */,
 				4B6E0B341F5D20330060A2E7 /* MultiLineChartViewController.m in Sources */,
 				4B6E0B3C1F5D20340060A2E7 /* TableViewController.m in Sources */,
 				4B6E0B051F5D202B0060A2E7 /* ZFCirqueChart.m in Sources */,
@@ -544,6 +569,7 @@
 				4B6E0B391F5D20340060A2E7 /* SingleHorizontalBarChartViewController.m in Sources */,
 				4B6E0AF51F5D202B0060A2E7 /* NSNumber+Zirkfied.m in Sources */,
 				4B6E0B131F5D202B0060A2E7 /* ZFRadarChart.m in Sources */,
+				4B6E0B431F5D36120060A2E7 /* ZFCandle.m in Sources */,
 				4B6E0B0D1F5D202B0060A2E7 /* ZFLineChart.m in Sources */,
 				4B6E0AF91F5D202B0060A2E7 /* UIView+Zirkfied.m in Sources */,
 				4B6E0B041F5D202B0060A2E7 /* ZFCirque.m in Sources */,

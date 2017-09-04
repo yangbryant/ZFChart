@@ -146,6 +146,16 @@ extern NSString * const ZFLineChartXPos;
 extern NSString * const ZFLineChartYPos;
 
 /**
+ *  线状图路径最小值y点标识
+ */
+extern NSString * const ZFLineChartMinYPos;
+
+/**
+ *  线状图路径最大值y点标识
+ */
+extern NSString * const ZFLineChartMaxYPos;
+
+/**
  *  线状图点是否等于0标识
  */
 extern NSString * const ZFLineChartIsHeightEqualZero;

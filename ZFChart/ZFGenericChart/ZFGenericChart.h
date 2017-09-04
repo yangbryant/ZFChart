@@ -70,6 +70,26 @@
 - (NSUInteger)axisLineSectionCountInGenericChart:(ZFGenericChart *)chart;
 
 /**
+ *  数据最大值value数据(若不设置,默认返回value数据)
+ *
+ *  (PS:烛台图专用(ZFCandleChart)只支持1组数据)
+ *
+ *  @return NSArray必须存储NSString类型
+ *          eg: 当只有1组数据时，NSArray存储 @[@"1", @"2", @"3", @"4"]
+ */
+- (NSArray *)maxValueArrayInCandleChart:(ZFGenericChart *)chart;
+
+/**
+ *  数据最小值value数据(若不设置,默认返回value数据)
+ *
+ *  (PS:烛台图专用(ZFCandleChart)只支持1组数据)
+ *
+ *  @return NSArray必须存储NSString类型
+ *          eg: 当只有1组数据时，NSArray存储 @[@"1", @"2", @"3", @"4"]
+ */
+- (NSArray *)minValueArrayInCandleChart:(ZFGenericChart *)chart;
+
+/**
  *  从下标为n的数值开始显示(正数:从左往右数，负数:从右往左数)
  */
 - (NSInteger)axisLineStartToDisplayValueAtIndex:(ZFGenericChart *)chart;
