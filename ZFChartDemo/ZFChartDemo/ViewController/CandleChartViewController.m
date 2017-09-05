@@ -22,33 +22,42 @@
 - (void)setUp{
     if ([[UIApplication sharedApplication] statusBarOrientation] == UIInterfaceOrientationLandscapeLeft || [[UIApplication sharedApplication] statusBarOrientation] == UIInterfaceOrientationLandscapeRight){
         //首次进入控制器为横屏时
-        _height = SCREEN_HEIGHT - NAVIGATIONBAR_HEIGHT * 0.5;
+        _height = SCREEN_HEIGHT/2 - NAVIGATIONBAR_HEIGHT * 0.5;
         
     }else{
         //首次进入控制器为竖屏时
-        _height = SCREEN_HEIGHT - NAVIGATIONBAR_HEIGHT;
+        _height = SCREEN_HEIGHT/2 - NAVIGATIONBAR_HEIGHT;
     }
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.view.backgroundColor = [UIColor whiteColor];
     [self setUp];
     
-    self.candleChart = [[ZFCandleChart alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, _height)];
+    self.candleChart = [[ZFCandleChart alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH - 50.f, _height)];
     self.candleChart.dataSource = self;
     self.candleChart.delegate = self;
     self.candleChart.topicLabel.text = @"xx小学各年级男女人数";
     self.candleChart.unit = @"人";
+    self.candleChart.isAnimated = NO;
+    self.candleChart.isShowAxisArrows = NO;
     self.candleChart.topicLabel.textColor = ZFPurple;
     self.candleChart.isResetAxisLineMinValue = YES;
 //        self.candleChart.isAnimated = NO;
 //        self.candleChart.valueLabelPattern = kPopoverLabelPatternBlank;
     self.candleChart.isShowXLineSeparate = YES;
     self.candleChart.isShowYLineSeparate = YES;
-    //    self.candleChart.isShowAxisLineValue = NO;
+    self.candleChart.isShowAxisLineValue = NO;
     //    self.candleChart.valueCenterToCircleCenterPadding = 0;
     [self.view addSubview:self.candleChart];
     [self.candleChart strokePath];
+    
+    UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleDoubleTap:)];
+    doubleTap.numberOfTouchesRequired = 1;
+    doubleTap.numberOfTapsRequired = 2;
+    [self.candleChart addGestureRecognizer:doubleTap];
+    
 }
 
 #pragma mark - ZFGenericChartDataSource
@@ -126,6 +135,15 @@
 //- (NSArray *)valuePositionInCandleChart:(ZFCandleChart *)candleChart{
 //    return @[@(kChartValuePositionOnTop)];
 //}
+
+- (void)handleDoubleTap:(UITapGestureRecognizer *)tap {
+    if (!self.candleChart.isShowHorScreen) {
+        [self.candleChart showHorScreen];
+    }
+    else {
+        [self.candleChart dismissHorScreen];
+    }
+}
 
 - (void)candleChart:(ZFCandleChart *)candleChart didSelectCircleAtCandleIndex:(NSInteger)candleIndex circleIndex:(NSInteger)circleIndex circle:(ZFCircle *)circle popoverLabel:(ZFPopoverLabel *)popoverLabel{
     NSLog(@"第%ld个", (long)circleIndex);

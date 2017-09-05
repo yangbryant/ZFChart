@@ -189,11 +189,30 @@
 @property (nonatomic, assign) BOOL isShowYLineSeparate;
 /** 是否显示坐标轴箭头(默认为YES) */
 @property (nonatomic, assign) BOOL isShowAxisArrows;
-
+/** 是否是横屏状态(默认为NO,只读参数,不可设置) */
+@property (nonatomic, readonly) BOOL isShowHorScreen;
 
 
 #pragma mark - 此方法不需理会(Ignore this method)
 
 - (void)commonInit;
+
+/**
+ *  重绘(每次更新数据后都需要再调一次此方法)
+ *  子类实现功能,父类为空方法
+ */
+- (void)strokePath;
+
+#pragma mark - 横屏显示和关闭横屏
+
+/**
+ *  设置横屏显示
+ */
+- (void)showHorScreen;
+
+/**
+ *  关闭横屏显示
+ */
+- (void)dismissHorScreen;
 
 @end

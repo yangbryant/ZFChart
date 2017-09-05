@@ -34,7 +34,7 @@
     [super viewDidLoad];
     [self setUp];
     
-    self.barChart = [[ZFBarChart alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, _height)];
+    self.barChart = [[ZFBarChart alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH - 50.f, _height)];
     self.barChart.dataSource = self;
     self.barChart.delegate = self;
     self.barChart.topicLabel.text = @"xx小学各年级人数";
@@ -59,6 +59,21 @@
     
     [self.view addSubview:self.barChart];
     [self.barChart strokePath];
+    
+    UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleDoubleTap:)];
+    doubleTap.numberOfTouchesRequired = 1;
+    doubleTap.numberOfTapsRequired = 2;
+    [self.barChart addGestureRecognizer:doubleTap];
+
+}
+
+- (void)handleDoubleTap:(UITapGestureRecognizer *)tap {
+    if (!self.barChart.isShowHorScreen) {
+        [self.barChart showHorScreen];
+    }
+    else {
+        [self.barChart dismissHorScreen];
+    }
 }
 
 #pragma mark - ZFGenericChartDataSource

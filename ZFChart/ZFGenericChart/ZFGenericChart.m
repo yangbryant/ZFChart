@@ -9,12 +9,21 @@
 #import "ZFGenericChart.h"
 #import "ZFColor.h"
 
-@implementation ZFGenericChart
+@interface ZFGenericChart()
+@property (nonatomic, readwrite) BOOL isShowHorScreen;
+
+@end
+
+@implementation ZFGenericChart {
+    CGRect lastFrame;
+    UIView *superView;
+}
 
 /**
  *  初始化变量
  */
 - (void)commonInit{
+    _isShowHorScreen = NO;
     _isAnimated = YES;
     _isShadowForValueLabel = YES;
     _opacity = 1.f;
@@ -49,6 +58,56 @@
 - (void)setFrame:(CGRect)frame{
     [super setFrame:frame];
     self.topicLabel.frame = CGRectMake(CGRectGetMinX(self.topicLabel.frame), CGRectGetMinY(self.topicLabel.frame), self.frame.size.width, CGRectGetHeight(self.topicLabel.frame));
+}
+
+/**
+ *  重绘(每次更新数据后都需要再调一次此方法)
+ *  子类实现功能,父类为空方法
+ */
+- (void)strokePath{
+}
+
+#pragma mark - 横屏显示
+
+- (void)showHorScreen{
+    if (_isShowHorScreen) return;
+    
+    // 更改状态,保存先前的数据
+    _isShowHorScreen = YES;
+    superView = self.superview;
+    lastFrame = self.frame;
+    
+    // 重绘全屏界面
+    [self removeFromSuperview];
+    CGFloat x = 0;
+    CGFloat y = [UIApplication sharedApplication].statusBarFrame.size.height;
+    CGFloat width = [UIApplication sharedApplication].delegate.window.frame.size.height - y;
+    CGFloat height = [UIApplication sharedApplication].delegate.window.frame.size.width;
+    self.frame = CGRectMake(x, y, width, height);
+    [self strokePath];
+    [[UIApplication sharedApplication].delegate.window addSubview:self];
+
+    /*
+     横屏翻转
+     */
+    self.center = [UIApplication sharedApplication].delegate.window.center;
+    self.transform = CGAffineTransformMakeRotation(M_PI_2);
+}
+
+- (void)dismissHorScreen{
+    if (!_isShowHorScreen) return;
+    
+    // 更改状态
+    _isShowHorScreen = NO;
+
+    // 还原横屏旋转
+    [self removeFromSuperview];
+    self.transform = CGAffineTransformMakeRotation(0);
+
+    // 重绘原始界面
+    self.frame = lastFrame;
+    [self strokePath];
+    [superView addSubview:self];
 }
 
 @end
