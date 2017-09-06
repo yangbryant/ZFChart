@@ -88,9 +88,11 @@
     [[UIApplication sharedApplication].delegate.window addSubview:self];
 
     /*
-     横屏翻转
+     横屏翻转,不遮挡状态栏
      */
-    self.center = [UIApplication sharedApplication].delegate.window.center;
+    CGFloat centerX = [UIApplication sharedApplication].delegate.window.center.x;
+    CGFloat centerY = [UIApplication sharedApplication].delegate.window.center.y + y / 2.f;
+    self.center = CGPointMake(centerX, centerY);
     self.transform = CGAffineTransformMakeRotation(M_PI_2);
 }
 
