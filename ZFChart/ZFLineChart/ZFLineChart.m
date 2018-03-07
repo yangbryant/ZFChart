@@ -24,6 +24,8 @@
 @property (nonatomic, strong) NSMutableArray * colorArray;
 /** 存储每条线value位置的数组 */
 @property (nonatomic, strong) NSMutableArray * valuePositionArray;
+/** 存储line渐变色的数组 */
+@property (nonatomic, strong) NSMutableArray * gradientColorArray;
 /** 半径 */
 @property (nonatomic, assign) CGFloat radius;
 /** 线宽 */
@@ -44,6 +46,9 @@
     _overMaxValueCircleColor = ZFRed;
     _lineWidth = 2.f;
     _linePatternType = kLinePatternTypeSharp;
+    _lineStyle = kLineStyleRealLine;
+    _lineDashPhase = 0.f;
+    _lineDashPattern = @[@(10), @(5)];
     self.shadowColor = ZFLightGray;
 }
 
@@ -238,10 +243,25 @@
 - (void)drawLine{
     id subObject = self.circleArray.firstObject;
     if ([subObject isKindOfClass:[ZFCircle class]]) {
-        [self.genericAxis.layer addSublayer:[self lineShapeLayer:self.circleArray index:0]];
+        ZFLine * line = (ZFLine *)[self lineShapeLayer:self.circleArray index:0];
+        [self.genericAxis.layer addSublayer:line];
+        
+        //渐变色
+        if (_gradientColorArray) {
+            line.gradientAttribute = _gradientColorArray.firstObject;
+            [self.genericAxis.layer addSublayer:[line lineGradientColor]];
+        }
+
     }else if ([subObject isKindOfClass:[NSArray class]]){
         for (NSInteger i = 0; i < self.circleArray.count; i++) {
-            [self.genericAxis.layer addSublayer:[self lineShapeLayer:(NSMutableArray *)self.circleArray[i] index:i]];
+            ZFLine * line = (ZFLine *)[self lineShapeLayer:(NSMutableArray *)self.circleArray[i] index:i];
+            [self.genericAxis.layer addSublayer:line];
+            
+            //渐变色
+            if (_gradientColorArray) {
+                line.gradientAttribute = _gradientColorArray[i];
+                [self.genericAxis.layer addSublayer:[line lineGradientColor]];
+            }
         }
     }
 }
@@ -255,10 +275,16 @@
     NSMutableArray * valuePointArray = [self cachedValuePointArray:array];
     
     ZFLine * layer = [ZFLine lineWithValuePointArray:valuePointArray isAnimated:self.isAnimated shadowColor:self.shadowColor linePatternType:_linePatternType padding:self.genericAxis.groupPadding];
+    layer.frame = CGRectMake(0, 0, self.genericAxis.xLineWidth + self.genericAxis.axisStartXPos, self.genericAxis.yLineMaxValueHeight + self.genericAxis.yLineMaxValueYPos);
     layer.strokeColor = [_colorArray[index] CGColor];
     layer.lineWidth = _lineWidth;
     layer.isShadow = _isShadow;
     layer.opacity = self.opacity;
+    
+    if (_lineStyle == kLineStyleDashLine) {
+        layer.lineDashPhase = _lineDashPhase;
+        layer.lineDashPattern = _lineDashPattern;
+    }
     
     return layer;
 }
@@ -383,6 +409,10 @@
             [layer removeAllAnimations];
             [layer removeFromSuperlayer];
         }
+        
+        if ([layer.name isEqualToString:ZFLineChartGradientLayer]) {
+            [layer removeFromSuperlayer];
+        }
     }
 }
 
@@ -468,6 +498,10 @@
         self.valuePositionArray = [NSMutableArray arrayWithArray:[[ZFMethod shareInstance] cachedValuePositionInLineChart:self.genericAxis.xLineValueArray]];
     }
     
+    if ([self.delegate respondsToSelector:@selector(gradientColorArrayInLineChart:)]) {
+        _gradientColorArray = [NSMutableArray arrayWithArray:[self.delegate gradientColorArrayInLineChart:self]];
+    }
+    
     if (self.genericAxis.yLineMaxValue - self.genericAxis.yLineMinValue == 0) {
         NSLog(@"y轴数值显示的最大值与最小值相等，导致公式分母为0，无法绘画图表，请设置数值不一样的最大值与最小值");
         return;
@@ -485,6 +519,9 @@
     self.genericAxis.isShowAxisArrows = self.isShowAxisArrows;
     self.genericAxis.valueType = self.valueType;
     self.genericAxis.numberOfDecimal = self.numberOfDecimal;
+    self.genericAxis.separateLineStyle = self.separateLineStyle;
+    self.genericAxis.separateLineDashPhase = self.separateLineDashPhase;
+    self.genericAxis.separateLineDashPattern = self.separateLineDashPattern;
     [self.genericAxis strokePath];
     [self drawCircle];
     [self drawLine];

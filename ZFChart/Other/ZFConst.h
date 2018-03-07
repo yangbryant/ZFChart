@@ -76,6 +76,16 @@ extern CGFloat const ZFAxisLinePaddingForBarLength;
 extern CGFloat const ZFAxisLineGapFromAxisLineMaxValueToArrow;
 
 /**
+ *  x轴右边屏幕保留距离(竖向)
+ */
+extern CGFloat const ZFAxisXLineRightGapVertical;
+
+/**
+ *  x轴右边屏幕保留距离(横向)
+ */
+extern CGFloat const ZFAxisXLineRightGapHorizontal;
+
+/**
  *  坐标轴分段线长度
  */
 extern CGFloat const ZFAxisLineSectionLength;
@@ -161,6 +171,11 @@ extern NSString * const ZFLineChartMaxYPos;
 extern NSString * const ZFLineChartIsHeightEqualZero;
 
 /**
+ *  线状图渐变色图层标识
+ */
+extern NSString * const ZFLineChartGradientLayer;
+
+/**
  *  波浪图路径x点标识
  */
 extern NSString * const ZFWaveChartXPos;
@@ -200,6 +215,14 @@ typedef enum{
     kValueTypeInteger = 0,   //取整数形式(四舍五入)(默认)
     kValueTypeDecimal = 1,   //取小数形式(默认显示1位小数, 如需显示其余位数则设置ZFGenericChart.h文件中 numberOfDecimal属性)
 }kValueType;
+
+/**
+ *  线条样式
+ */
+typedef enum{
+    kLineStyleRealLine = 0,   //实线(默认样式)
+    kLineStyleDashLine = 1    //虚线
+}kLineStyle;
 
 @interface ZFConst : NSObject
 

@@ -48,6 +48,15 @@
 - (NSArray *)valuePositionInLineChart:(ZFLineChart *)lineChart;
 
 /**
+ *  line渐变色
+ *
+ *  (PS: 此方法 与 父类代理方法 - (NSArray *)colorArrayInGenericChart:(ZFGenericChart *)chart 二选一。若同时实现了这两个方法，则会优先执行渐变色)
+ *
+ *  @return NSArray必须存储ZFGradientAttribute类型
+ */
+- (NSArray<ZFGradientAttribute *> *)gradientColorArrayInLineChart:(ZFLineChart *)lineChart;
+
+/**
  *  用于编写circle点击后需要执行后续代码
  *
  *  @param lineIndex   点击的circle在第几条线
@@ -79,6 +88,12 @@
 @property (nonatomic, strong) UIColor * overMaxValueCircleColor;
 /** 线样式(默认为kLinePatternTypeForSharp) */
 @property (nonatomic, assign) kLinePatternType linePatternType;
+/** 线条样式(默认为kLineStyleRealLine) */
+@property (nonatomic, assign) kLineStyle lineStyle;
+/** 在第一个虚线绘制的时候跳过多少个点(默认为0.f) */
+@property (nonatomic, assign) CGFloat lineDashPhase;
+/** 虚线交替绘制参数(默认为  @[@(15), @(10)]  ) */
+@property (nonatomic, strong) NSArray<NSNumber *> * lineDashPattern;
 
 
 #pragma mark - public method

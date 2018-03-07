@@ -46,8 +46,12 @@
     self.lineChart.isShowXLineSeparate = YES;
     self.lineChart.isShowYLineSeparate = YES;
     self.lineChart.linePatternType = kLinePatternTypeCurve;
+    self.lineChart.lineStyle = kLineStyleDashLine;
+//    self.lineChart.lineDashPhase = 0.f;
+//    self.lineChart.lineDashPattern = @[@(5), @(5)];
 //    self.lineChart.isShowAxisLineValue = NO;
-//    lineChart.valueCenterToCircleCenterPadding = 0;
+//    self.lineChart.valueCenterToCircleCenterPadding = 0;    
+    
     [self.view addSubview:self.lineChart];
     [self.lineChart strokePath];
 }
@@ -113,6 +117,16 @@
 //- (NSArray *)valuePositionInLineChart:(ZFLineChart *)lineChart{
 //    return @[@(kChartValuePositionOnTop)];
 //}
+
+- (NSArray<ZFGradientAttribute *> *)gradientColorArrayInLineChart:(ZFLineChart *)lineChart{
+    ZFGradientAttribute * gradientAttribute = [[ZFGradientAttribute alloc] init];
+    gradientAttribute.colors = @[(id)ZFRed.CGColor, (id)ZFBlue.CGColor, (id)ZFGreen.CGColor];
+    gradientAttribute.locations = @[@(0.1), @(0.22)];
+    gradientAttribute.startPoint = CGPointMake(0.5, 0);
+    gradientAttribute.endPoint = CGPointMake(0.5, 1);
+    
+    return [NSArray arrayWithObjects:gradientAttribute, nil];
+}
 
 - (void)lineChart:(ZFLineChart *)lineChart didSelectCircleAtLineIndex:(NSInteger)lineIndex circleIndex:(NSInteger)circleIndex circle:(ZFCircle *)circle popoverLabel:(ZFPopoverLabel *)popoverLabel{
     NSLog(@"第%ld个", (long)circleIndex);

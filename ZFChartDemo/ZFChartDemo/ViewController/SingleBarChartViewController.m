@@ -44,8 +44,8 @@
     self.barChart.isResetAxisLineMaxValue = YES;
 //    self.barChart.isShowAxisLineValue = NO;
 //    self.barChart.valueLabelPattern = kPopoverLabelPatternBlank;
-//    self.barChart.isShowXLineSeparate = YES;
-//    self.barChart.isShowYLineSeparate = YES;
+    self.barChart.isShowXLineSeparate = YES;
+    self.barChart.isShowYLineSeparate = YES;
 //    self.barChart.topicLabel.textColor = ZFWhite;
 //    self.barChart.unitColor = ZFWhite;
 //    self.barChart.xAxisColor = ZFWhite;
@@ -56,6 +56,10 @@
 //    self.barChart.axisLineValueColor = ZFWhite;
 //    self.barChart.backgroundColor = ZFPurple;
 //    self.barChart.isShowAxisArrows = NO;
+    self.barChart.separateLineStyle = kLineStyleDashLine;
+//    self.barChart.isMultipleColorInSingleBarChart = YES;
+//    self.barChart.separateLineDashPhase = 0.f;
+//    self.barChart.separateLineDashPattern = @[@(5), @(5)];
     
     [self.view addSubview:self.barChart];
     [self.barChart strokePath];
@@ -79,16 +83,18 @@
 #pragma mark - ZFGenericChartDataSource
 
 - (NSArray *)valueArrayInGenericChart:(ZFGenericChart *)chart{
-    return @[@"123", @"256", @"300", @"283", @"490", @"236", @"123", @"256", @"300", @"283", @"490", @"236", @"123", @"256", @"300", @"283", @"490", @"236", @"123", @"256", @"300", @"283", @"490", @"236", @"123", @"256", @"300", @"283", @"490", @"236"];
+    return @[@"123", @"256", @"300", @"283", @"490", @"236"];
 }
 
 - (NSArray *)nameArrayInGenericChart:(ZFGenericChart *)chart{
-    return @[@"一年级", @"二年级", @"三年级", @"四年级", @"五年级", @"六年级", @"一年级", @"二年级", @"三年级", @"四年级", @"五年级", @"六年级", @"一年级", @"二年级", @"三年级", @"四年级", @"五年级", @"六年级", @"一年级", @"二年级", @"三年级", @"四年级", @"五年级", @"六年级", @"一年级", @"二年级", @"三年级", @"四年级", @"五年级", @"六年级"];
+    return @[@"一年级", @"二年级", @"三年级", @"四年级", @"五年级", @"六年级"];
 }
 
-- (NSArray *)colorArrayInGenericChart:(ZFGenericChart *)chart{
-    return @[ZFMagenta];
-}
+//- (NSArray *)colorArrayInGenericChart:(ZFGenericChart *)chart{
+//    return @[ZFMagenta];
+//    
+////    return @[ZFRandom, ZFRandom, ZFRandom, ZFRandom, ZFRandom, ZFRandom];
+//}
 
 - (CGFloat)axisLineMaxValueInGenericChart:(ZFGenericChart *)chart{
     return 500;
@@ -128,7 +134,7 @@
     ZFGradientAttribute * gradientAttribute = [[ZFGradientAttribute alloc] init];
     gradientAttribute.colors = @[(id)ZFRed.CGColor, (id)ZFWhite.CGColor];
     gradientAttribute.locations = @[@(0.5), @(0.99)];
-    
+
     return [NSArray arrayWithObjects:gradientAttribute, nil];
 }
 

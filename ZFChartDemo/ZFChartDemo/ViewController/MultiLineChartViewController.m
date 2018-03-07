@@ -39,7 +39,7 @@
     self.lineChart.delegate = self;
     self.lineChart.topicLabel.text = @"xx小学各年级男女人数";
     self.lineChart.unit = @"人";
-    self.lineChart.topicLabel.textColor = ZFWhite;
+//    self.lineChart.topicLabel.textColor = ZFWhite;
 //    self.lineChart.isShowXLineSeparate = YES;
     self.lineChart.isShowYLineSeparate = YES;
 //    self.lineChart.isAnimated = NO;
@@ -50,13 +50,16 @@
 //    self.lineChart.valueLabelPattern = kPopoverLabelPatternBlank;
 //    self.lineChart.valueCenterToCircleCenterPadding = 0;
 //    self.lineChart.separateColor = ZFYellow;
-//    self.lineChart.linePatternType = kLinePatternTypeForCurve;
-    self.lineChart.unitColor = ZFWhite;
-    self.lineChart.backgroundColor = ZFPurple;
-    self.lineChart.xAxisColor = ZFWhite;
-    self.lineChart.yAxisColor = ZFWhite;
-    self.lineChart.axisLineNameColor = ZFWhite;
-    self.lineChart.axisLineValueColor = ZFWhite;
+//    self.lineChart.linePatternType = kLinePatternTypeCurve;
+//    self.lineChart.unitColor = ZFWhite;
+//    self.lineChart.backgroundColor = ZFPurple;
+//    self.lineChart.xAxisColor = ZFWhite;
+//    self.lineChart.yAxisColor = ZFWhite;
+//    self.lineChart.axisLineNameColor = ZFWhite;
+//    self.lineChart.axisLineValueColor = ZFWhite;
+//    self.lineChart.lineStyle = kLineStyleDashLine;
+//    self.lineChart.lineDashPhase = 0.f;
+//    self.lineChart.lineDashPattern = @[@(5), @(5)];
     self.lineChart.xLineNameLabelToXAxisLinePadding = 40;
     [self.view addSubview:self.lineChart];
     [self.lineChart strokePath];
@@ -113,6 +116,28 @@
 //    return @[@(kChartValuePositionOnTop), @(kChartValuePositionDefalut), @(kChartValuePositionOnBelow)];
 //}
 
+//- (NSArray<ZFGradientAttribute *> *)gradientColorArrayInLineChart:(ZFLineChart *)lineChart{
+//    ZFGradientAttribute * gradientAttribute1 = [[ZFGradientAttribute alloc] init];
+//    gradientAttribute1.colors = @[(id)ZFRed.CGColor, (id)ZFGreen.CGColor];
+//    gradientAttribute1.locations = @[@(0.1)];
+//    gradientAttribute1.startPoint = CGPointMake(0.5, 1);
+//    gradientAttribute1.endPoint = CGPointMake(0.5, 0);
+//    
+//    ZFGradientAttribute * gradientAttribute2 = [[ZFGradientAttribute alloc] init];
+//    gradientAttribute2.colors = @[(id)ZFOrange.CGColor, (id)ZFCyan.CGColor];
+//    gradientAttribute2.locations = @[@(0.1)];
+//    gradientAttribute2.startPoint = CGPointMake(0.5, 1);
+//    gradientAttribute2.endPoint = CGPointMake(0.5, 0);
+//    
+//    ZFGradientAttribute * gradientAttribute3 = [[ZFGradientAttribute alloc] init];
+//    gradientAttribute3.colors = @[(id)ZFGold.CGColor, (id)ZFMagenta.CGColor];
+//    gradientAttribute3.locations = @[@(0.1)];
+//    gradientAttribute3.startPoint = CGPointMake(0.5, 1);
+//    gradientAttribute3.endPoint = CGPointMake(0.5, 0);
+//    
+//    return [NSArray arrayWithObjects:gradientAttribute1, gradientAttribute2, gradientAttribute3, nil];
+//}
+
 - (void)lineChart:(ZFLineChart *)lineChart didSelectCircleAtLineIndex:(NSInteger)lineIndex circleIndex:(NSInteger)circleIndex circle:(ZFCircle *)circle popoverLabel:(ZFPopoverLabel *)popoverLabel{
     NSLog(@"第%ld条线========第%ld个",(long)lineIndex,(long)circleIndex);
     
@@ -147,6 +172,12 @@
     }else{
         self.lineChart.frame = CGRectMake(0, 0, size.width, size.height + NAVIGATIONBAR_HEIGHT * 0.5);
     }
+    
+    [self.lineChart strokePath];
+}
+
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
+    [super touchesBegan:touches withEvent:event];
     
     [self.lineChart strokePath];
 }
