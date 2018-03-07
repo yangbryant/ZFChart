@@ -61,6 +61,9 @@
 		4B6E0B431F5D36120060A2E7 /* ZFCandle.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B6E0B401F5D36120060A2E7 /* ZFCandle.m */; };
 		4B6E0B441F5D36120060A2E7 /* ZFCandleChart.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B6E0B421F5D36120060A2E7 /* ZFCandleChart.m */; };
 		4B6E0B471F5D3BE30060A2E7 /* CandleChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B6E0B461F5D3BE30060A2E7 /* CandleChartViewController.m */; };
+		4B9D15A1204FD763004CD6F0 /* ZFCombineBarChart.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B9D15A0204FD763004CD6F0 /* ZFCombineBarChart.m */; };
+		4B9D15A4204FD780004CD6F0 /* ZFCombineBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B9D15A3204FD780004CD6F0 /* ZFCombineBar.m */; };
+		4B9D15A7204FDB05004CD6F0 /* CombineBarChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B9D15A6204FDB05004CD6F0 /* CombineBarChartViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -172,6 +175,12 @@
 		4B6E0B421F5D36120060A2E7 /* ZFCandleChart.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZFCandleChart.m; sourceTree = "<group>"; };
 		4B6E0B451F5D3BE30060A2E7 /* CandleChartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CandleChartViewController.h; sourceTree = "<group>"; };
 		4B6E0B461F5D3BE30060A2E7 /* CandleChartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CandleChartViewController.m; sourceTree = "<group>"; };
+		4B9D159F204FD763004CD6F0 /* ZFCombineBarChart.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZFCombineBarChart.h; sourceTree = "<group>"; };
+		4B9D15A0204FD763004CD6F0 /* ZFCombineBarChart.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZFCombineBarChart.m; sourceTree = "<group>"; };
+		4B9D15A2204FD780004CD6F0 /* ZFCombineBar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZFCombineBar.h; sourceTree = "<group>"; };
+		4B9D15A3204FD780004CD6F0 /* ZFCombineBar.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZFCombineBar.m; sourceTree = "<group>"; };
+		4B9D15A5204FDB05004CD6F0 /* CombineBarChartViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CombineBarChartViewController.h; sourceTree = "<group>"; };
+		4B9D15A6204FDB05004CD6F0 /* CombineBarChartViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CombineBarChartViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -233,6 +242,7 @@
 				4B6E0AB71F5D202B0060A2E7 /* Model */,
 				4B6E0ABC1F5D202B0060A2E7 /* Other */,
 				4B6E0AC31F5D202B0060A2E7 /* ZFBarChart */,
+				4B9D159E204FD738004CD6F0 /* ZFCombineBarChart */,
 				4B6E0AC81F5D202B0060A2E7 /* ZFCirqueChart */,
 				4B6E0ACD1F5D202B0060A2E7 /* ZFGenericAxis */,
 				4B6E0AD01F5D202B0060A2E7 /* ZFGenericChart */,
@@ -445,6 +455,8 @@
 				4B6E0B301F5D20330060A2E7 /* WaveChartViewController.m */,
 				4B6E0B451F5D3BE30060A2E7 /* CandleChartViewController.h */,
 				4B6E0B461F5D3BE30060A2E7 /* CandleChartViewController.m */,
+				4B9D15A5204FDB05004CD6F0 /* CombineBarChartViewController.h */,
+				4B9D15A6204FDB05004CD6F0 /* CombineBarChartViewController.m */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -458,6 +470,17 @@
 				4B6E0B421F5D36120060A2E7 /* ZFCandleChart.m */,
 			);
 			path = ZFCandleChart;
+			sourceTree = "<group>";
+		};
+		4B9D159E204FD738004CD6F0 /* ZFCombineBarChart */ = {
+			isa = PBXGroup;
+			children = (
+				4B9D15A2204FD780004CD6F0 /* ZFCombineBar.h */,
+				4B9D15A3204FD780004CD6F0 /* ZFCombineBar.m */,
+				4B9D159F204FD763004CD6F0 /* ZFCombineBarChart.h */,
+				4B9D15A0204FD763004CD6F0 /* ZFCombineBarChart.m */,
+			);
+			path = ZFCombineBarChart;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -561,6 +584,7 @@
 				4B6E0B0C1F5D202B0060A2E7 /* ZFLine.m in Sources */,
 				4B6E0B311F5D20330060A2E7 /* MultiBarChartViewController.m in Sources */,
 				4B6E0B151F5D202B0060A2E7 /* ZFWaveChart.m in Sources */,
+				4B9D15A4204FD780004CD6F0 /* ZFCombineBar.m in Sources */,
 				4B6E0B021F5D202B0060A2E7 /* ZFBar.m in Sources */,
 				4B6E0B3B1F5D20340060A2E7 /* SingleRadarChartViewController.m in Sources */,
 				4B6E0AFD1F5D202B0060A2E7 /* ZFYAxisLine.m in Sources */,
@@ -576,8 +600,10 @@
 				4B6E0B0B1F5D202B0060A2E7 /* ZFCircle.m in Sources */,
 				4B6E0B321F5D20330060A2E7 /* MultiCirqueChartViewController.m in Sources */,
 				4B6E0B101F5D202B0060A2E7 /* ZFTranslucencePath.m in Sources */,
+				4B9D15A7204FDB05004CD6F0 /* CombineBarChartViewController.m in Sources */,
 				4B6E0B071F5D202B0060A2E7 /* ZFGenericChart.m in Sources */,
 				4B6E0A8D1F5D1FC50060A2E7 /* main.m in Sources */,
+				4B9D15A1204FD763004CD6F0 /* ZFCombineBarChart.m in Sources */,
 				4B6E0AFC1F5D202B0060A2E7 /* ZFXAxisLine.m in Sources */,
 				4B6E0B3A1F5D20340060A2E7 /* SingleLineChartViewController.m in Sources */,
 				4B6E0B111F5D202B0060A2E7 /* ZFPolygon.m in Sources */,
