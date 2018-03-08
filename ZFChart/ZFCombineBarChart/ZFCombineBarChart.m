@@ -29,6 +29,8 @@
 @property (nonatomic, assign) CGFloat barWidth;
 /** bar与bar之间的间距 */
 @property (nonatomic, assign) CGFloat barPadding;
+/** bar与bar之间的间距 */
+@property (nonatomic, assign) CGFloat barVerticalPadding;
 /** value文本颜色 */
 @property (nonatomic, strong) UIColor * valueTextColor;
 
@@ -46,6 +48,7 @@
     _isShadow = YES;
     _barWidth = ZFAxisLineItemWidth;
     _barPadding = ZFAxisLinePaddingForBarLength;
+    _barVerticalPadding = ZFAxisLinePaddingForBarLength;
     _valueTextColor = ZFBlack;
 }
 
@@ -84,21 +87,22 @@
             CGFloat width = _barWidth;
             CGFloat height = self.genericAxis.yLineMaxValueHeight;
             
-            ZFBar * bar = [[ZFBar alloc] initWithFrame:CGRectMake(xPos, yPos, width, height)];
+            ZFCombineBar * bar = [[ZFCombineBar alloc] initWithFrame:CGRectMake(xPos, yPos, width, height)];
             bar.groupIndex = 0;
             bar.barIndex = i;
             
             //当前数值超过y轴显示上限时，柱状改为红色
             if ([self.genericAxis.xLineValueArray[i] floatValue] / self.genericAxis.yLineMaxValue <= 1) {
-                bar.percent = ([self.genericAxis.xLineValueArray[i] floatValue] - self.genericAxis.yLineMinValue) / (self.genericAxis.yLineMaxValue - self.genericAxis.yLineMinValue);
+                bar.percents = @[@(([self.genericAxis.xLineValueArray[i] floatValue] - self.genericAxis.yLineMinValue) / (self.genericAxis.yLineMaxValue - self.genericAxis.yLineMinValue))];
                 bar.barColor = !_isMultipleColorInSingleBarChart ? _colorArray.firstObject : _colorArray[bar.barIndex];
                 bar.isOverrun = NO;
                 
             }else{
-                bar.percent = 1.f;
+                bar.percents = @[@(1.f)];
                 bar.barColor = _overMaxValueBarColor;
                 bar.isOverrun = YES;
             }
+            bar.barPadding = _barVerticalPadding;
             bar.isShadow = _isShadow;
             bar.isAnimated = self.isAnimated;
             bar.opacity = self.opacity;
@@ -108,48 +112,53 @@
             [self.barArray addObject:bar];
             [self.genericAxis addSubview:bar];
             
-            [bar addTarget:self action:@selector(barAction:) forControlEvents:UIControlEventTouchUpInside];
+//            [bar addTarget:self action:@selector(barAction:) forControlEvents:UIControlEventTouchUpInside];
         }
         
     }else if ([subObject isKindOfClass:[NSArray class]]){
         if ([[subObject firstObject] isKindOfClass:[NSString class]]) {
-            //bar总数
-            NSInteger count = [valueArray count] * [subObject count];
-            for (NSInteger i = 0; i < count; i++) {
-                //每组bar的下标
-                NSInteger barIndex = i % [subObject count];
-                //组下标
-                NSInteger groupIndex = i / [subObject count];
-                
-                CGFloat xPos = self.genericAxis.axisStartXPos + self.genericAxis.groupPadding * (barIndex + 1) + self.genericAxis.groupWidth * barIndex + (_barWidth + _barPadding) * groupIndex;
+            for (NSInteger barIndex = 0; barIndex < [subObject count]; barIndex++) {
+                CGFloat xPos = self.genericAxis.axisStartXPos + self.genericAxis.groupPadding + (_barWidth + self.genericAxis.groupPadding) * barIndex;
                 CGFloat yPos = self.genericAxis.yLineMaxValueYPos;
                 CGFloat width = _barWidth;
                 CGFloat height = self.genericAxis.yLineMaxValueHeight;
                 
-                ZFBar * bar = [[ZFBar alloc] initWithFrame:CGRectMake(xPos, yPos, width, height)];
-                bar.groupIndex = groupIndex;
+                ZFCombineBar * bar = [[ZFCombineBar alloc] initWithFrame:CGRectMake(xPos, yPos, width, height)];
+                bar.groupIndex = 0;
                 bar.barIndex = barIndex;
-                //当前数值超过y轴显示上限时，柱状改为红色
-                if ([valueArray[groupIndex][barIndex] floatValue] / self.genericAxis.yLineMaxValue <= 1) {
-                    bar.percent = ([valueArray[groupIndex][barIndex] floatValue] - self.genericAxis.yLineMinValue) / (self.genericAxis.yLineMaxValue - self.genericAxis.yLineMinValue);
-                    bar.barColor = _colorArray[groupIndex];
-                    bar.isOverrun = NO;
-                    
-                }else{
-                    bar.percent = 1.f;
+                NSMutableArray *percents = [NSMutableArray new];
+                float sum = 0.0f;
+                for (NSInteger groupIndex = 0; groupIndex < [valueArray count]; groupIndex++) {
+                    float percent = [valueArray[groupIndex][barIndex] floatValue] / self.genericAxis.yLineMaxValue;
+                    [percents addObject:@(percent)];
+                    sum += percent;
+                }
+                if (sum > 1.0f) {
+                    NSMutableArray *fixPercents = [NSMutableArray new];
+                    for (NSInteger groupIndex = 0; groupIndex < [valueArray count]; groupIndex++) {
+                        float percent = [percents[groupIndex] floatValue] / sum;
+                        [fixPercents addObject:@(percent)];
+                    }
+                    bar.percents = fixPercents;
                     bar.barColor = _overMaxValueBarColor;
                     bar.isOverrun = YES;
+                } else {
+                    bar.percents = percents;
+                    bar.barColor = !_isMultipleColorInSingleBarChart ? _colorArray.firstObject : _colorArray[bar.barIndex];
+                    bar.isOverrun = NO;
                 }
+                
+                bar.barPadding = _barVerticalPadding;
                 bar.isShadow = _isShadow;
                 bar.isAnimated = self.isAnimated;
                 bar.opacity = self.opacity;
                 bar.shadowColor = self.shadowColor;
-                bar.gradientAttribute = _gradientColorArray ? _gradientColorArray[groupIndex] : nil;
+                bar.gradientAttribute = _gradientColorArray ? _gradientColorArray.firstObject : nil;
                 [bar strokePath];
                 [self.barArray addObject:bar];
                 [self.genericAxis addSubview:bar];
-                
-                [bar addTarget:self action:@selector(barAction:) forControlEvents:UIControlEventTouchUpInside];
+
+//            [bar addTarget:self action:@selector(barAction:) forControlEvents:UIControlEventTouchUpInside];
             }
         }
     }
@@ -162,7 +171,7 @@
     id subObject = valueArray.firstObject;
     if ([subObject isKindOfClass:[NSString class]]) {
         for (NSInteger i = 0; i < self.barArray.count; i++) {
-            ZFBar * bar = self.barArray[i];
+            ZFCombineBar * bar = self.barArray[i];
             //label的中心点
             CGPoint label_center = CGPointMake(bar.center.x, bar.endYPos + self.genericAxis.yAxisLine.yLineEndYPos);
             CGRect rect = [self.genericAxis.xLineValueArray[i] stringWidthRectWithSize:CGSizeMake(_barWidth + _barPadding * 0.5, 30) font:self.valueOnChartFont];
@@ -189,7 +198,7 @@
     }else if ([subObject isKindOfClass:[NSArray class]]){
         if ([[subObject firstObject] isKindOfClass:[NSString class]]) {
             for (NSInteger i = 0; i < self.barArray.count; i++) {
-                ZFBar * bar = self.barArray[i];
+                ZFCombineBar * bar = self.barArray[i];
                 NSInteger barIndex = i % [subObject count];
                 NSInteger groupIndex = i / [subObject count];
                 //label的中心点
@@ -225,7 +234,7 @@
  *
  *  @param sender bar
  */
-- (void)barAction:(ZFBar *)sender{
+- (void)barAction:(ZFCombineBar *)sender{
     if ([self.delegate respondsToSelector:@selector(barChart:didSelectBarAtGroupIndex:barIndex:bar:popoverLabel:)]) {
         
         ZFPopoverLabel * popoverLabel = nil;
@@ -257,10 +266,10 @@
 
 #pragma mark - 重置Bar原始设置
 
-- (void)resetBar:(ZFBar *)sender popoverLabel:(ZFPopoverLabel *)label{
+- (void)resetBar:(ZFCombineBar *)sender popoverLabel:(ZFPopoverLabel *)label{
     id subObject = self.genericAxis.xLineValueArray.firstObject;
     
-    for (ZFBar * bar in self.barArray) {
+    for (ZFCombineBar * bar in self.barArray) {
         if (bar != sender) {
             if ([subObject isKindOfClass:[NSString class]]) {
                 if (bar.isOverrun) {
@@ -310,7 +319,8 @@
 - (CGFloat)cachedGroupWidth:(NSMutableArray *)array{
     id subObject = array.firstObject;
     if ([subObject isKindOfClass:[NSArray class]]) {
-        return array.count * _barWidth + (array.count - 1) * _barPadding;
+//        return array.count * _barWidth + (array.count - 1) * _barPadding;
+        return _barWidth;
     }
     
     return _barWidth;
@@ -325,8 +335,8 @@
     [self.barArray removeAllObjects];
     NSArray * subviews = [NSArray arrayWithArray:self.genericAxis.subviews];
     for (UIView * view in subviews) {
-        if ([view isKindOfClass:[ZFBar class]]) {
-            [(ZFBar *)view removeFromSuperview];
+        if ([view isKindOfClass:[ZFCombineBar class]]) {
+            [(ZFCombineBar *)view removeFromSuperview];
         }
     }
 }
@@ -474,9 +484,10 @@
     self.genericAxis.separateLineStyle = self.separateLineStyle;
     self.genericAxis.separateLineDashPhase = self.separateLineDashPhase;
     self.genericAxis.separateLineDashPattern = self.separateLineDashPattern;
+    self.genericAxis.isShowYAxis = self.isShowYAxis;
     [self.genericAxis strokePath];
     [self drawBar:self.genericAxis.xLineValueArray];
-    [self setValueLabelOnChart:self.genericAxis.xLineValueArray];
+//    [self setValueLabelOnChart:self.genericAxis.xLineValueArray];
     
     [self.genericAxis bringSubviewToFront:self.genericAxis.yAxisLine];
     [self.genericAxis bringSectionToFront];

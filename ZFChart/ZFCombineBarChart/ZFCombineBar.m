@@ -10,6 +10,9 @@
 
 @interface ZFCombineBar()
 
+
+/** 不填充矩形的线宽 */
+@property (nonatomic, assign) CGFloat borderWidth;
 /** bar高度上限 */
 @property (nonatomic, assign) CGFloat barHeightLimit;
 /** 动画时间 */
@@ -24,10 +27,12 @@
  */
 - (void)commonInit{
     _barHeightLimit = self.frame.size.height;
-    _percent = 0;
+    _percents = [NSArray new];
     _animationDuration = 0.5f;
     _isShadow = YES;
+    _barPadding = ZFAxisLinePaddingForBarLength;
     _shadowColor = ZFLightGray;
+    _borderWidth = 2.0f;
 }
 
 - (instancetype)initWithFrame:(CGRect)frame{
@@ -57,10 +62,42 @@
  *  @return UIBezierPath
  */
 - (UIBezierPath *)fill{
-    CGFloat currentHeight = _barHeightLimit * self.percent;
-    _endYPos = _barHeightLimit - currentHeight;
-    
-    UIBezierPath * bezier = [UIBezierPath bezierPathWithRect:CGRectMake(0, _endYPos, self.frame.size.width, currentHeight)];
+    UIBezierPath * bezier = [UIBezierPath bezierPath];
+
+    _endYPos = _barHeightLimit;
+    for (NSInteger i = 0; i < self.percents.count; i++) {
+        if ([self.percents[i] floatValue] == 0.0f) {
+            continue;
+        }
+        CGFloat currentHeight = _barHeightLimit * [self.percents[i] floatValue] - _barPadding;
+        _endYPos -= currentHeight;
+        // 设定Bar最底部部分为不填充.其他为填充类型
+        // TODO: 如需自定义,需要重新设置参数,推荐用delegate方式
+        if (i == 0) {
+            [bezier moveToPoint:CGPointMake(0, _endYPos)];
+            [bezier addLineToPoint:CGPointMake(0, _endYPos + _borderWidth)];
+            [bezier addLineToPoint:CGPointMake(self.frame.size.width, _endYPos + _borderWidth)];
+            [bezier addLineToPoint:CGPointMake(self.frame.size.width, _endYPos)];
+            [bezier addLineToPoint:CGPointMake(0, _endYPos)];
+            
+            [bezier moveToPoint:CGPointMake(0, _endYPos + _borderWidth)];
+            [bezier addLineToPoint:CGPointMake(0, _endYPos + currentHeight)];
+            [bezier addLineToPoint:CGPointMake(self.frame.size.width, _endYPos + currentHeight)];
+            [bezier addLineToPoint:CGPointMake(self.frame.size.width, _endYPos + _borderWidth)];
+            [bezier addLineToPoint:CGPointMake(self.frame.size.width - _borderWidth, _endYPos + _borderWidth)];
+            [bezier addLineToPoint:CGPointMake(self.frame.size.width - _borderWidth, _endYPos + currentHeight - _borderWidth)];
+            [bezier addLineToPoint:CGPointMake(_borderWidth, _endYPos + currentHeight - _borderWidth)];
+            [bezier addLineToPoint:CGPointMake(_borderWidth, _endYPos + _borderWidth)];
+            [bezier addLineToPoint:CGPointMake(0, _endYPos + _borderWidth)];
+        } else {
+            [bezier moveToPoint:CGPointMake(0, _endYPos)];
+            [bezier addLineToPoint:CGPointMake(0, _endYPos + currentHeight)];
+            [bezier addLineToPoint:CGPointMake(self.frame.size.width, _endYPos + currentHeight)];
+            [bezier addLineToPoint:CGPointMake(self.frame.size.width, _endYPos)];
+            [bezier addLineToPoint:CGPointMake(0, _endYPos)];
+        }
+        _endYPos -= _barPadding;
+    }
     return bezier;
 }
 

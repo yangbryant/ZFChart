@@ -197,6 +197,8 @@
 @property (nonatomic, assign) BOOL isShowAxisArrows;
 /** 是否是横屏状态(默认为NO,只读参数,不可设置) */
 @property (nonatomic, readonly) BOOL isShowHorScreen;
+/** 是否显示Y坐标轴(默认为YES) */
+@property (nonatomic, assign) BOOL isShowYAxis;
 
 
 #pragma mark - 此方法不需理会(Ignore this method)

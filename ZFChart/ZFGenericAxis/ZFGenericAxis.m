@@ -328,6 +328,10 @@
     [self.sectionArray removeAllObjects];
     self.yAxisLine.yLineSectionCount = _yLineSectionCount;
     
+    if (!self.isShowYAxis) {
+        self.yAxisLine.hidden = YES;
+    }
+    
     if (self.xLineNameArray.count > 0) {
         //根据item个数,设置x轴长度
         self.xAxisLine.xLineWidth = self.xLineNameArray.count * (_groupWidth + _groupPadding) + _groupPadding;

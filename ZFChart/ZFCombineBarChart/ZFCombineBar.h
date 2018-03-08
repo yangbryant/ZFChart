@@ -21,12 +21,13 @@
 @property (nonatomic, assign) BOOL isAnimated;
 /** 图表透明度(范围0 ~ 1, 默认为1.f) */
 @property (nonatomic, assign) CGFloat opacity;
-
+/** bar与bar之间的间距 */
+@property (nonatomic, assign) CGFloat barPadding;
 
 #pragma mark - 下列参数请勿修改(Do not modify)
 
-/** 百分比小数 */
-@property (nonatomic, assign) CGFloat percent;
+/** 百分比小数列表 */
+@property (nonatomic, strong) NSArray * percents;
 /** self所在第几组数据 */
 @property (nonatomic, assign) NSInteger groupIndex;
 /** self在该组数据的下标位置 */

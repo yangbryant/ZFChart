@@ -92,7 +92,8 @@
 @property (nonatomic, assign) CGFloat separateLineDashPhase;
 /** 分割线虚线交替绘制参数(默认为  @[@(2), @(2)]  ) */
 @property (nonatomic, strong) NSArray<NSNumber *> * separateLineDashPattern;
-
+/** 是否显示Y坐标轴(默认为YES) */
+@property (nonatomic, assign) BOOL isShowYAxis;
 
 #pragma mark - readonly(只读)
 /** 获取坐标轴起点x值 */

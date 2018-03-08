@@ -35,7 +35,7 @@
     [self setUp];
     
     self.barChart = [[ZFCombineBarChart alloc] initWithFrame:CGRectMake(25.f, 25.f, SCREEN_WIDTH - 50.f, _height - 50.f)];
-    self.barChart.backgroundColor = ZFRed;
+    self.barChart.backgroundColor = ZFLightGray;
     self.barChart.dataSource = self;
     self.barChart.delegate = self;
     //    self.barChart.topicLabel.text = @"xx小学各年级人数";
@@ -57,6 +57,9 @@
     //    self.barChart.axisLineValueColor = ZFWhite;
     //    self.barChart.backgroundColor = ZFPurple;
     self.barChart.isShowAxisArrows = NO;
+    self.barChart.isShowYAxis = NO;
+    self.barChart.isShadow = NO;
+    self.barChart.isAnimated = NO;
     self.barChart.separateLineStyle = kLineStyleDashLine;
     //    self.barChart.isMultipleColorInSingleBarChart = YES;
     //    self.barChart.separateLineDashPhase = 0.f;
@@ -84,11 +87,13 @@
 #pragma mark - ZFGenericChartDataSource
 
 - (NSArray *)valueArrayInGenericChart:(ZFGenericChart *)chart{
-    return @[@"123", @"256", @"300", @"283", @"490", @"236", @"123", @"256", @"300", @"283", @"490", @"236", @"123", @"256", @"300", @"283", @"490", @"236"];
+    return @[@[@"123", @"0", @"800", @"0", @"490", @"236"],
+             @[@"123", @"256", @"283", @"123", @"256", @"283"],
+             @[@"123", @"300", @"300", @"283", @"490", @"236"]];
 }
 
 - (NSArray *)nameArrayInGenericChart:(ZFGenericChart *)chart{
-    return @[@"一年级", @"二年级", @"三年级", @"四年级", @"五年级", @"六年级", @"一年级", @"二年级", @"三年级", @"四年级", @"五年级", @"六年级", @"一年级", @"二年级", @"三年级", @"四年级", @"五年级", @"六年级"];
+    return @[@"一年级", @"二年级", @"三年级", @"四年级", @"五年级", @"六年级"];
 }
 
 //- (NSArray *)colorArrayInGenericChart:(ZFGenericChart *)chart{
@@ -117,7 +122,7 @@
     NSLog(@"当前偏移量 ------ %f", scrollView.contentOffset.x);
 }
 
-#pragma mark - ZFBarChartDelegate
+#pragma mark - ZFCombineBarChartDelegate
 
 //- (CGFloat)barWidthInBarChart:(ZFBarChart *)barChart{
 //    return 40.f;
@@ -133,13 +138,13 @@
 
 - (NSArray *)gradientColorArrayInBarChart:(ZFCombineBarChart *)barChart{
     ZFGradientAttribute * gradientAttribute = [[ZFGradientAttribute alloc] init];
-    gradientAttribute.colors = @[(id)ZFRed.CGColor, (id)ZFWhite.CGColor];
+    gradientAttribute.colors = @[(id)ZFSystemBlue.CGColor, (id)ZFLightBlue.CGColor];
     gradientAttribute.locations = @[@(0.5), @(0.99)];
     
-    return [NSArray arrayWithObjects:gradientAttribute, nil];
+    return [NSArray arrayWithObjects:gradientAttribute, gradientAttribute, gradientAttribute, nil];
 }
 
-- (void)barChart:(ZFCombineBarChart *)barChart didSelectBarAtGroupIndex:(NSInteger)groupIndex barIndex:(NSInteger)barIndex bar:(ZFBar *)bar popoverLabel:(ZFPopoverLabel *)popoverLabel{
+- (void)barChart:(ZFCombineBarChart *)barChart didSelectBarAtGroupIndex:(NSInteger)groupIndex barIndex:(NSInteger)barIndex bar:(ZFCombineBar *)bar popoverLabel:(ZFPopoverLabel *)popoverLabel{
     NSLog(@"第%ld组========第%ld个",(long)groupIndex,(long)barIndex);
     
     //可在此处进行bar被点击后的自身部分属性设置,可修改的属性查看ZFBar.h

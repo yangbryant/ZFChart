@@ -7,13 +7,13 @@
 //
 
 #import "ZFGenericChart.h"
-#import "ZFBar.h"
+#import "ZFCombineBar.h"
 #import "ZFPopoverLabel.h"
 #import "ZFConst.h"
 
 @class ZFCombineBarChart;
 
-/*********************  ZFBarChartDelegate(ZFBarChart协议方法)  *********************/
+/*********************  ZFCombineBarChartDelegate(ZFCombineBarChart协议方法)  *********************/
 @protocol ZFCombineBarChartDelegate <NSObject>
 
 @optional
@@ -61,7 +61,7 @@
  *  @param bar          当前点击的bar对象
  *  @param popoverLabel 当前点击的bar对应的popoverLabel对象
  */
-- (void)barChart:(ZFCombineBarChart *)barChart didSelectBarAtGroupIndex:(NSInteger)groupIndex barIndex:(NSInteger)barIndex bar:(ZFBar *)bar popoverLabel:(ZFPopoverLabel *)popoverLabel;
+- (void)barChart:(ZFCombineBarChart *)barChart didSelectBarAtGroupIndex:(NSInteger)groupIndex barIndex:(NSInteger)barIndex bar:(ZFCombineBar *)bar popoverLabel:(ZFPopoverLabel *)popoverLabel;
 
 /**
  *  用于编写点击x轴valueLabel后需要执行后续代码
