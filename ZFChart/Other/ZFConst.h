@@ -190,6 +190,10 @@ extern NSString * const ZFWaveChartYPos;
  */
 extern NSString * const ZFWaveChartIsHeightEqualZero;
 
+/**
+ *  波浪图点是否等于0标识
+ */
+extern CGFloat const ZFCircleLabelDiameter;
 
 /**
  *  线状图, 波浪图上的value的位置

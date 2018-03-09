@@ -36,6 +36,8 @@ NSString * const ZFWaveChartXPos = @"ZFWaveChartXPos";
 NSString * const ZFWaveChartYPos = @"ZFWaveChartYPos";
 NSString * const ZFWaveChartIsHeightEqualZero = @"ZFWaveChartIsHeightEqualZero";
 
+CGFloat const ZFCircleLabelDiameter = 20.f;
+
 CGFloat const NAVIGATIONBAR_HEIGHT = 64.f;
 CGFloat const TABBAR_HEIGHT = 49.f;
 CGFloat const TOPIC_HEIGHT = 30.f;

@@ -173,21 +173,14 @@
         for (NSInteger i = 0; i < self.barArray.count; i++) {
             ZFCombineBar * bar = self.barArray[i];
             //label的中心点
-            CGPoint label_center = CGPointMake(CGRectGetMaxX(bar.frame), bar.endYPos + self.genericAxis.yAxisLine.yLineEndYPos);
-            CGRect rect = [self.genericAxis.xLineValueArray[i] stringWidthRectWithSize:CGSizeMake(_barWidth + _barPadding * 0.5, 30) font:self.valueOnChartFont];
+            CGPoint label_center = CGPointMake(CGRectGetMaxX(bar.frame), bar.endYPos + self.genericAxis.yAxisLine.yLineEndYPos + ZFCircleLabelDiameter / 2);
             
-            ZFCircleLabel * popoverLabel = [[ZFCircleLabel alloc] initWithFrame:CGRectMake(0, 0, rect.size.width + 10, rect.size.height + 10) direction:kAxisDirectionVertical];
+            ZFCircleLabel * popoverLabel = [[ZFCircleLabel alloc] initWithFrame:CGRectMake(0, 0, ZFCircleLabelDiameter, ZFCircleLabelDiameter)];
             popoverLabel.groupIndex = 0;
             popoverLabel.labelIndex = i;
-            popoverLabel.text = self.genericAxis.xLineValueArray[i];
-            popoverLabel.font = self.valueOnChartFont;
-            popoverLabel.arrowsOrientation = kPopoverLaberArrowsOrientationOnBelow;
             popoverLabel.center = label_center;
-            popoverLabel.pattern = self.valueLabelPattern;
-            popoverLabel.textColor = (UIColor *)self.valueTextColorArray.firstObject;
-            popoverLabel.isShadow = self.isShadowForValueLabel;
+            popoverLabel.backgroundColor = ZFColor(255, 102, 86, 1);
             popoverLabel.isAnimated = self.isAnimated;
-            popoverLabel.shadowColor = self.valueLabelShadowColor;
             popoverLabel.hidden = self.isShowAxisLineValue ? NO : YES;
             [popoverLabel strokePath];
             [self.popoverLaberArray addObject:popoverLabel];
@@ -202,22 +195,14 @@
                 NSInteger barIndex = i % [subObject count];
                 NSInteger groupIndex = i / [subObject count];
                 //label的中心点
-                CGRect rect = [valueArray[groupIndex][barIndex] stringWidthRectWithSize:CGSizeMake(_barWidth + _barPadding * 0.5, 30) font:self.valueOnChartFont];
-                CGSize size = CGSizeMake(rect.size.width + 10, rect.size.height + 10);
-                CGPoint label_center = CGPointMake(CGRectGetMaxX(bar.frame), bar.endYPos + self.genericAxis.yAxisLine.yLineEndYPos + size.height / 2);
+                CGPoint label_center = CGPointMake(CGRectGetMaxX(bar.frame), bar.endYPos + self.genericAxis.yAxisLine.yLineEndYPos + ZFCircleLabelDiameter / 2);
                 
-                ZFCircleLabel * popoverLabel = [[ZFCircleLabel alloc] initWithFrame:CGRectMake(0, 0, size.width, size.height) direction:kAxisDirectionVertical];
-                popoverLabel.text = valueArray[groupIndex][barIndex];
-                popoverLabel.font = self.valueOnChartFont;
-                popoverLabel.arrowsOrientation = kPopoverLaberArrowsOrientationOnBelow;
+                ZFCircleLabel * popoverLabel = [[ZFCircleLabel alloc] initWithFrame:CGRectMake(0, 0, ZFCircleLabelDiameter, ZFCircleLabelDiameter)];
                 popoverLabel.center = label_center;
-                popoverLabel.pattern = self.valueLabelPattern;
-                popoverLabel.textColor = (UIColor *)self.valueTextColorArray[groupIndex];
-                popoverLabel.isShadow = self.isShadowForValueLabel;
+                popoverLabel.backgroundColor = ZFColor(255, 102, 86, 1);
                 popoverLabel.isAnimated = self.isAnimated;
                 popoverLabel.groupIndex = groupIndex;
                 popoverLabel.labelIndex = barIndex;
-                popoverLabel.shadowColor = self.valueLabelShadowColor;
                 popoverLabel.hidden = self.isShowAxisLineValue ? NO : YES;
                 [popoverLabel strokePath];
                 [self.popoverLaberArray addObject:popoverLabel];
@@ -304,8 +289,6 @@
 - (void)resetPopoverLabel:(ZFCircleLabel *)sender{
     for (ZFCircleLabel * popoverLabel in self.popoverLaberArray) {
         if (popoverLabel != sender) {
-            popoverLabel.font = self.valueOnChartFont;
-            popoverLabel.textColor = (UIColor *)self.valueTextColorArray[popoverLabel.groupIndex];
             popoverLabel.isAnimated = sender.isAnimated;
             [popoverLabel strokePath];
         }

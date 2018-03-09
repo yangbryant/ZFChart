@@ -34,8 +34,10 @@
     [super viewDidLoad];
     [self setUp];
     
-    self.barChart = [[ZFCombineBarChart alloc] initWithFrame:CGRectMake(25.f, 25.f, SCREEN_WIDTH - 50.f, _height - 50.f)];
-    self.barChart.backgroundColor = ZFLightGray;
+    self.view.backgroundColor = ZFColor(29, 26, 75, 0.75);
+    
+    self.barChart = [[ZFCombineBarChart alloc] initWithFrame:CGRectMake(0.f, 25.f, SCREEN_WIDTH, _height / 2.f - 50.f)];
+    self.barChart.backgroundColor = ZFClear;
     self.barChart.dataSource = self;
     self.barChart.delegate = self;
     //    self.barChart.topicLabel.text = @"xx小学各年级人数";
@@ -44,7 +46,6 @@
     //    self.barChart.isResetAxisLineMinValue = YES;
     self.barChart.isResetAxisLineMaxValue = YES;
     //    self.barChart.isShowAxisLineValue = NO;
-    //    self.barChart.valueLabelPattern = kPopoverLabelPatternBlank;
     //    self.barChart.isShowXLineSeparate = YES;
     self.barChart.isShowYLineSeparate = YES;
     //    self.barChart.topicLabel.textColor = ZFWhite;
@@ -59,8 +60,9 @@
     self.barChart.isShowAxisArrows = NO;
     self.barChart.isShowYAxis = NO;
     self.barChart.isShadow = NO;
-    self.barChart.isAnimated = NO;
+    self.barChart.isAnimated = YES;
     self.barChart.separateLineStyle = kLineStyleDashLine;
+//    self.barChart.opacity = 0.2;
     //    self.barChart.isMultipleColorInSingleBarChart = YES;
     //    self.barChart.separateLineDashPhase = 0.f;
     //    self.barChart.separateLineDashPattern = @[@(5), @(5)];
@@ -87,13 +89,13 @@
 #pragma mark - ZFGenericChartDataSource
 
 - (NSArray *)valueArrayInGenericChart:(ZFGenericChart *)chart{
-    return @[@[@"123", @"0", @"800", @"0", @"490", @"236"],
-             @[@"123", @"256", @"283", @"123", @"256", @"283"],
-             @[@"123", @"300", @"300", @"283", @"490", @"236"]];
+    return @[@[@"123", @"0", @"800", @"0", @"490", @"236", @"123", @"0", @"800", @"0", @"490", @"236", @"123", @"0", @"800", @"0", @"490", @"236"],
+//             @[@"123", @"256", @"283", @"123", @"256", @"283", @"123", @"256", @"283", @"123", @"256", @"283", @"123", @"256", @"283", @"123", @"256", @"283"],
+             @[@"123", @"300", @"300", @"283", @"490", @"236", @"123", @"300", @"300", @"283", @"490", @"236", @"123", @"300", @"300", @"283", @"490", @"236"]];
 }
 
 - (NSArray *)nameArrayInGenericChart:(ZFGenericChart *)chart{
-    return @[@"一年级", @"二年级", @"三年级", @"四年级", @"五年级", @"六年级"];
+    return @[@"一年级", @"二年级", @"三年级", @"四年级", @"五年级", @"六年级", @"一年级", @"二年级", @"三年级", @"四年级", @"五年级", @"六年级", @"一年级", @"二年级", @"三年级", @"四年级", @"五年级", @"六年级"];
 }
 
 //- (NSArray *)colorArrayInGenericChart:(ZFGenericChart *)chart{
@@ -103,7 +105,7 @@
 //}
 
 - (CGFloat)axisLineMaxValueInGenericChart:(ZFGenericChart *)chart{
-    return 500;
+    return 800;
 }
 
 //- (CGFloat)axisLineMinValueInGenericChart:(ZFGenericChart *)chart{
@@ -111,7 +113,7 @@
 //}
 
 - (NSUInteger)axisLineSectionCountInGenericChart:(ZFGenericChart *)chart{
-    return 10;
+    return 3;
 }
 
 //- (NSInteger)axisLineStartToDisplayValueAtIndex:(ZFGenericChart *)chart{
@@ -138,10 +140,10 @@
 
 - (NSArray *)gradientColorArrayInBarChart:(ZFCombineBarChart *)barChart{
     ZFGradientAttribute * gradientAttribute = [[ZFGradientAttribute alloc] init];
-    gradientAttribute.colors = @[(id)ZFSystemBlue.CGColor, (id)ZFLightBlue.CGColor];
-    gradientAttribute.locations = @[@(0.5), @(0.99)];
+    gradientAttribute.colors = @[(id)ZFColor(64, 92, 255, 1).CGColor, (id)ZFColor(0, 255, 249, 1).CGColor];
+    gradientAttribute.locations = @[@(0.01), @(0.99)];
     
-    return [NSArray arrayWithObjects:gradientAttribute, gradientAttribute, gradientAttribute, nil];
+    return [NSArray arrayWithObjects:gradientAttribute, gradientAttribute, nil];
 }
 
 - (void)barChart:(ZFCombineBarChart *)barChart didSelectBarAtGroupIndex:(NSInteger)groupIndex barIndex:(NSInteger)barIndex bar:(ZFCombineBar *)bar circleLabel:(ZFCircleLabel *)circleLabel{
