@@ -9,7 +9,7 @@
 /// 带坐标轴的数据源
 
 #import <UIKit/UIKit.h>
-#import "ZFPopoverLabel.h"
+#import "ZFConst.h"
 @class ZFGenericChart;
 
 /*********************  ZFChartDataSource(ZFChart数据源方法)  *********************/

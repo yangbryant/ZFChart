@@ -173,10 +173,10 @@
         for (NSInteger i = 0; i < self.barArray.count; i++) {
             ZFCombineBar * bar = self.barArray[i];
             //label的中心点
-            CGPoint label_center = CGPointMake(bar.center.x, bar.endYPos + self.genericAxis.yAxisLine.yLineEndYPos);
+            CGPoint label_center = CGPointMake(CGRectGetMaxX(bar.frame), bar.endYPos + self.genericAxis.yAxisLine.yLineEndYPos);
             CGRect rect = [self.genericAxis.xLineValueArray[i] stringWidthRectWithSize:CGSizeMake(_barWidth + _barPadding * 0.5, 30) font:self.valueOnChartFont];
             
-            ZFPopoverLabel * popoverLabel = [[ZFPopoverLabel alloc] initWithFrame:CGRectMake(0, 0, rect.size.width + 10, rect.size.height + 10) direction:kAxisDirectionVertical];
+            ZFCircleLabel * popoverLabel = [[ZFCircleLabel alloc] initWithFrame:CGRectMake(0, 0, rect.size.width + 10, rect.size.height + 10) direction:kAxisDirectionVertical];
             popoverLabel.groupIndex = 0;
             popoverLabel.labelIndex = i;
             popoverLabel.text = self.genericAxis.xLineValueArray[i];
@@ -202,10 +202,11 @@
                 NSInteger barIndex = i % [subObject count];
                 NSInteger groupIndex = i / [subObject count];
                 //label的中心点
-                CGPoint label_center = CGPointMake(bar.center.x, bar.endYPos + self.genericAxis.yAxisLine.yLineEndYPos);
                 CGRect rect = [valueArray[groupIndex][barIndex] stringWidthRectWithSize:CGSizeMake(_barWidth + _barPadding * 0.5, 30) font:self.valueOnChartFont];
+                CGSize size = CGSizeMake(rect.size.width + 10, rect.size.height + 10);
+                CGPoint label_center = CGPointMake(CGRectGetMaxX(bar.frame), bar.endYPos + self.genericAxis.yAxisLine.yLineEndYPos + size.height / 2);
                 
-                ZFPopoverLabel * popoverLabel = [[ZFPopoverLabel alloc] initWithFrame:CGRectMake(0, 0, rect.size.width + 10, rect.size.height + 10) direction:kAxisDirectionVertical];
+                ZFCircleLabel * popoverLabel = [[ZFCircleLabel alloc] initWithFrame:CGRectMake(0, 0, size.width, size.height) direction:kAxisDirectionVertical];
                 popoverLabel.text = valueArray[groupIndex][barIndex];
                 popoverLabel.font = self.valueOnChartFont;
                 popoverLabel.arrowsOrientation = kPopoverLaberArrowsOrientationOnBelow;
@@ -235,9 +236,9 @@
  *  @param sender bar
  */
 - (void)barAction:(ZFCombineBar *)sender{
-    if ([self.delegate respondsToSelector:@selector(barChart:didSelectBarAtGroupIndex:barIndex:bar:popoverLabel:)]) {
+    if ([self.delegate respondsToSelector:@selector(barChart:didSelectBarAtGroupIndex:barIndex:bar:circleLabel:)]) {
         
-        ZFPopoverLabel * popoverLabel = nil;
+        ZFCircleLabel * popoverLabel = nil;
         id subObject = self.genericAxis.xLineValueArray.firstObject;
         if ([subObject isKindOfClass:[NSString class]]) {
             popoverLabel = self.popoverLaberArray[sender.barIndex];
@@ -245,7 +246,7 @@
             popoverLabel = self.popoverLaberArray[[self.barArray indexOfObject:sender]];
         }
         
-        [self.delegate barChart:self didSelectBarAtGroupIndex:sender.groupIndex barIndex:sender.barIndex bar:sender popoverLabel:popoverLabel];
+        [self.delegate barChart:self didSelectBarAtGroupIndex:sender.groupIndex barIndex:sender.barIndex bar:sender circleLabel:popoverLabel];
         
         [self resetBar:sender popoverLabel:popoverLabel];
     }
@@ -256,9 +257,9 @@
  *
  *  @param sender popoverLabel
  */
-- (void)popoverAction:(ZFPopoverLabel *)sender{
-    if ([self.delegate respondsToSelector:@selector(barChart:didSelectPopoverLabelAtGroupIndex:labelIndex:popoverLabel:)]) {
-        [self.delegate barChart:self didSelectPopoverLabelAtGroupIndex:sender.groupIndex labelIndex:sender.labelIndex popoverLabel:sender];
+- (void)popoverAction:(ZFCircleLabel *)sender{
+    if ([self.delegate respondsToSelector:@selector(barChart:didSelectPopoverLabelAtGroupIndex:labelIndex:circleLabel:)]) {
+        [self.delegate barChart:self didSelectPopoverLabelAtGroupIndex:sender.groupIndex labelIndex:sender.labelIndex circleLabel:sender];
         
         [self resetPopoverLabel:sender];
     }
@@ -266,7 +267,7 @@
 
 #pragma mark - 重置Bar原始设置
 
-- (void)resetBar:(ZFCombineBar *)sender popoverLabel:(ZFPopoverLabel *)label{
+- (void)resetBar:(ZFCombineBar *)sender popoverLabel:(ZFCircleLabel *)label{
     id subObject = self.genericAxis.xLineValueArray.firstObject;
     
     for (ZFCombineBar * bar in self.barArray) {
@@ -290,7 +291,7 @@
     }
     
     if (!self.isShowAxisLineValue) {
-        for (ZFPopoverLabel * popoverLabel in self.popoverLaberArray) {
+        for (ZFCircleLabel * popoverLabel in self.popoverLaberArray) {
             if (popoverLabel != label) {
                 popoverLabel.hidden = YES;
             }
@@ -300,8 +301,8 @@
 
 #pragma mark - 重置PopoverLabel原始设置
 
-- (void)resetPopoverLabel:(ZFPopoverLabel *)sender{
-    for (ZFPopoverLabel * popoverLabel in self.popoverLaberArray) {
+- (void)resetPopoverLabel:(ZFCircleLabel *)sender{
+    for (ZFCircleLabel * popoverLabel in self.popoverLaberArray) {
         if (popoverLabel != sender) {
             popoverLabel.font = self.valueOnChartFont;
             popoverLabel.textColor = (UIColor *)self.valueTextColorArray[popoverLabel.groupIndex];
@@ -348,8 +349,8 @@
     [self.popoverLaberArray removeAllObjects];
     NSArray * subviews = [NSArray arrayWithArray:self.genericAxis.subviews];
     for (UIView * view in subviews) {
-        if ([view isKindOfClass:[ZFPopoverLabel class]]) {
-            [(ZFPopoverLabel *)view removeFromSuperview];
+        if ([view isKindOfClass:[ZFCircleLabel class]]) {
+            [(ZFCircleLabel *)view removeFromSuperview];
         }
     }
 }
@@ -487,7 +488,7 @@
     self.genericAxis.isShowYAxis = self.isShowYAxis;
     [self.genericAxis strokePath];
     [self drawBar:self.genericAxis.xLineValueArray];
-//    [self setValueLabelOnChart:self.genericAxis.xLineValueArray];
+    [self setValueLabelOnChart:self.genericAxis.xLineValueArray];
     
     [self.genericAxis bringSubviewToFront:self.genericAxis.yAxisLine];
     [self.genericAxis bringSectionToFront];

@@ -144,7 +144,7 @@
     return [NSArray arrayWithObjects:gradientAttribute, gradientAttribute, gradientAttribute, nil];
 }
 
-- (void)barChart:(ZFCombineBarChart *)barChart didSelectBarAtGroupIndex:(NSInteger)groupIndex barIndex:(NSInteger)barIndex bar:(ZFCombineBar *)bar popoverLabel:(ZFPopoverLabel *)popoverLabel{
+- (void)barChart:(ZFCombineBarChart *)barChart didSelectBarAtGroupIndex:(NSInteger)groupIndex barIndex:(NSInteger)barIndex bar:(ZFCombineBar *)bar circleLabel:(ZFCircleLabel *)circleLabel{
     NSLog(@"第%ld组========第%ld个",(long)groupIndex,(long)barIndex);
     
     //可在此处进行bar被点击后的自身部分属性设置,可修改的属性查看ZFBar.h
@@ -157,7 +157,7 @@
     //    popoverLabel.hidden = NO;
 }
 
-- (void)barChart:(ZFCombineBarChart *)barChart didSelectPopoverLabelAtGroupIndex:(NSInteger)groupIndex labelIndex:(NSInteger)labelIndex popoverLabel:(ZFPopoverLabel *)popoverLabel{
+- (void)barChart:(ZFCombineBarChart *)barChart didSelectPopoverLabelAtGroupIndex:(NSInteger)groupIndex labelIndex:(NSInteger)labelIndex circleLabel:(ZFCircleLabel *)circleLabel{
     NSLog(@"第%ld组========第%ld个",(long)groupIndex,(long)labelIndex);
     
     //可在此处进行popoverLabel被点击后的自身部分属性设置

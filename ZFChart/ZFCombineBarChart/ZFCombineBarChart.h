@@ -8,7 +8,7 @@
 
 #import "ZFGenericChart.h"
 #import "ZFCombineBar.h"
-#import "ZFPopoverLabel.h"
+#import "ZFCircleLabel.h"
 #import "ZFConst.h"
 
 @class ZFCombineBarChart;
@@ -59,18 +59,18 @@
  *  @param groupIndex   点击的bar在第几组
  *  @param barIndex     点击的bar在该组的下标
  *  @param bar          当前点击的bar对象
- *  @param popoverLabel 当前点击的bar对应的popoverLabel对象
+ *  @param circleLabel 当前点击的bar对应的popoverLabel对象
  */
-- (void)barChart:(ZFCombineBarChart *)barChart didSelectBarAtGroupIndex:(NSInteger)groupIndex barIndex:(NSInteger)barIndex bar:(ZFCombineBar *)bar popoverLabel:(ZFPopoverLabel *)popoverLabel;
+- (void)barChart:(ZFCombineBarChart *)barChart didSelectBarAtGroupIndex:(NSInteger)groupIndex barIndex:(NSInteger)barIndex bar:(ZFCombineBar *)bar circleLabel:(ZFCircleLabel *)circleLabel;
 
 /**
  *  用于编写点击x轴valueLabel后需要执行后续代码
  *
  *  @param groupIndex   点击的label在第几组
  *  @param labelIndex   点击的label在该组的下标
- *  @param popoverLabel 当前点击的popoverLabel对象
+ *  @param circleLabel 当前点击的popoverLabel对象
  */
-- (void)barChart:(ZFCombineBarChart *)barChart didSelectPopoverLabelAtGroupIndex:(NSInteger)groupIndex labelIndex:(NSInteger)labelIndex popoverLabel:(ZFPopoverLabel *)popoverLabel;
+- (void)barChart:(ZFCombineBarChart *)barChart didSelectPopoverLabelAtGroupIndex:(NSInteger)groupIndex labelIndex:(NSInteger)labelIndex circleLabel:(ZFCircleLabel *)circleLabel;
 
 @end
 

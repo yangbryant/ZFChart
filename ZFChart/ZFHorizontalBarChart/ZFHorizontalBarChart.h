@@ -9,6 +9,7 @@
 #import "ZFGenericChart.h"
 #import "ZFConst.h"
 #import "ZFHorizontalBar.h"
+#import "ZFPopoverLabel.h"
 @class ZFHorizontalBarChart;
 
 /*********************  ZFHorizontalBarChartDelegate(ZFHorizontalBarChart协议方法)  *********************/

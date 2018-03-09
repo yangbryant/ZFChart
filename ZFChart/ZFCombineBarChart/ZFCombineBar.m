@@ -98,6 +98,7 @@
         }
         _endYPos -= _barPadding;
     }
+    _endYPos += _barPadding * 2;
     return bezier;
 }
 

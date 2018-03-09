@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4B2900F92052104300C09657 /* ZFCircleLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B2900F82052104300C09657 /* ZFCircleLabel.m */; };
 		4B6E0A8D1F5D1FC50060A2E7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B6E0A8C1F5D1FC50060A2E7 /* main.m */; };
 		4B6E0A901F5D1FC50060A2E7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B6E0A8F1F5D1FC50060A2E7 /* AppDelegate.m */; };
 		4B6E0A961F5D1FC50060A2E7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4B6E0A941F5D1FC50060A2E7 /* Main.storyboard */; };
@@ -67,6 +68,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4B2900F72052104300C09657 /* ZFCircleLabel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZFCircleLabel.h; sourceTree = "<group>"; };
+		4B2900F82052104300C09657 /* ZFCircleLabel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZFCircleLabel.m; sourceTree = "<group>"; };
 		4B6E0A881F5D1FC50060A2E7 /* ZFChartDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ZFChartDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4B6E0A8C1F5D1FC50060A2E7 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		4B6E0A8E1F5D1FC50060A2E7 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -286,6 +289,8 @@
 				4B6E0AB41F5D202B0060A2E7 /* ZFXAxisLine.m */,
 				4B6E0AB51F5D202B0060A2E7 /* ZFYAxisLine.h */,
 				4B6E0AB61F5D202B0060A2E7 /* ZFYAxisLine.m */,
+				4B2900F72052104300C09657 /* ZFCircleLabel.h */,
+				4B2900F82052104300C09657 /* ZFCircleLabel.m */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -590,6 +595,7 @@
 				4B6E0AFD1F5D202B0060A2E7 /* ZFYAxisLine.m in Sources */,
 				4B6E0AF81F5D202B0060A2E7 /* UIColor+Zirkfied.m in Sources */,
 				4B6E0AFA1F5D202B0060A2E7 /* ZFLabel.m in Sources */,
+				4B2900F92052104300C09657 /* ZFCircleLabel.m in Sources */,
 				4B6E0B391F5D20340060A2E7 /* SingleHorizontalBarChartViewController.m in Sources */,
 				4B6E0AF51F5D202B0060A2E7 /* NSNumber+Zirkfied.m in Sources */,
 				4B6E0B131F5D202B0060A2E7 /* ZFRadarChart.m in Sources */,

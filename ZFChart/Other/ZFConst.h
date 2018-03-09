@@ -224,6 +224,22 @@ typedef enum{
     kLineStyleDashLine = 1    //虚线
 }kLineStyle;
 
+/**
+ *  ZFPopoverLabel箭头方向
+ */
+typedef enum{
+    kPopoverLaberArrowsOrientationOnTop = 0,    //箭头在上方
+    kPopoverLaberArrowsOrientationOnBelow = 1   //箭头在下方
+}kPopoverLaberArrowsOrientation;
+
+/**
+ *  ZFPopoverLabel样式
+ */
+typedef enum{
+    kPopoverLabelPatternPopover = 0,   //气泡样式(默认)
+    kPopoverLabelPatternBlank = 1      //空白样式(原样式)
+}kPopoverLabelPattern;
+
 @interface ZFConst : NSObject
 
 @end

@@ -1,17 +1,15 @@
 //
-//  ZFPopoverLabel.h
-//  ZFChartView
+//  ZFCircleLabel.h
+//  ZFChartDemo
 //
-//  Created by apple on 16/3/29.
-//  Copyright © 2016年 apple. All rights reserved.
+//  Created by zhengxin  on 09/03/2018.
+//  Copyright © 2018 zhengxin. All rights reserved.
 //
-
-//气泡Label
 
 #import <UIKit/UIKit.h>
 #import "ZFConst.h"
 
-@interface ZFPopoverLabel : UIControl
+@interface ZFCircleLabel : UIControl
 
 #pragma mark - 以下属性可在点击后根据自身需求改动
 
