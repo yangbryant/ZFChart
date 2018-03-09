@@ -43,6 +43,7 @@
     _axisLineBackgroundColor = ZFWhite;
     _separateColor = ZFLightGray;
     _displayValueAtIndex = 0;
+    _isShowYAxis = YES;
     
     self.delegate = self;
     self.showsHorizontalScrollIndicator = NO;

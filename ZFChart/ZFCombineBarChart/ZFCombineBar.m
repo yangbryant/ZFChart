@@ -91,9 +91,9 @@
             [bezier addLineToPoint:CGPointMake(0, _endYPos + _borderWidth)];
         } else {
             [bezier moveToPoint:CGPointMake(0, _endYPos)];
-            [bezier addLineToPoint:CGPointMake(0, _endYPos + currentHeight)];
-            [bezier addLineToPoint:CGPointMake(self.frame.size.width, _endYPos + currentHeight)];
             [bezier addLineToPoint:CGPointMake(self.frame.size.width, _endYPos)];
+            [bezier addLineToPoint:CGPointMake(self.frame.size.width, _endYPos + currentHeight)];
+            [bezier addLineToPoint:CGPointMake(0, _endYPos + currentHeight)];
             [bezier addLineToPoint:CGPointMake(0, _endYPos)];
         }
         _endYPos -= _barPadding;
