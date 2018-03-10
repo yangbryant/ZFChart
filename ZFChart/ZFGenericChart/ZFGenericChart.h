@@ -134,8 +134,10 @@
 
 /** 图表上label字体大小(默认为10.f) */
 @property (nonatomic, strong) UIFont * valueOnChartFont;
-/** y轴(普通图表) 或 x轴(横向图表) 上名称字体大小(默认为10.f) */
+/** y轴(普通图表) 或 x轴(横向图表) 上名称字体大小(默认为8.f) */
 @property (nonatomic, strong) UIFont * axisLineNameFont;
+/** x轴(横向图表) 上名称字体放大后大小(默认为12.f) */
+@property (nonatomic, strong) UIFont * axisLineSelectNameFont;
 /** y轴(普通图表) 或 x轴(横向图表) 上数值字体大小(默认为10.f) */
 @property (nonatomic, strong) UIFont * axisLineValueFont;
 

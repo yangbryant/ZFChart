@@ -480,10 +480,39 @@
 
 #pragma mark - ZFGenericAxisDelegate
 
+- (void)reDrawBarOpacity:(ZFCombineBar *)bar opacity:(CGFloat)opacity{
+    if (!bar) return;
+    bar.opacity = opacity;
+    bar.isAnimated = NO;
+    [bar strokePath];
+}
+
 - (void)genericAxisDidScroll:(UIScrollView *)scrollView{
     if ([self.dataSource respondsToSelector:@selector(genericChartDidScroll:)]) {
         [self.dataSource genericChartDidScroll:scrollView];
     }
+}
+
+- (void)genericAxisWillBeginDragging:(UIScrollView *)scrollView userInfo:(id)userInfo{
+    int index = [[(NSDictionary *)userInfo objectForKey:@"index"] intValue];
+    
+    int minidx = MAX(index - 2, 0);
+    int maxidx = MIN(index + 2, (int)self.barArray.count - 1);
+    
+    for (int i = minidx; i <= maxidx; i++) {
+        ZFCombineBar * bar = self.barArray[i];
+        [self reDrawBarOpacity:bar opacity:0.1f];
+    }
+}
+
+- (void)genericAxisDidEndDragging:(UIScrollView *)scrollView userInfo:(id)userInfo{
+    int index = [[(NSDictionary *)userInfo objectForKey:@"index"] intValue];
+    
+    [self reDrawBarOpacity:(ZFCombineBar *)self.barArray[index] opacity:1.0f];
+    if (index-1 >= 0) [self reDrawBarOpacity:(ZFCombineBar *)self.barArray[index-1] opacity:0.5f];
+    if (index+1 < self.barArray.count) [self reDrawBarOpacity:(ZFCombineBar *)self.barArray[index+1] opacity:0.5f];
+    if (index-2 >= 0) [self reDrawBarOpacity:(ZFCombineBar *)self.barArray[index-2] opacity:0.2f];
+    if (index+2 < self.barArray.count) [self reDrawBarOpacity:(ZFCombineBar *)self.barArray[index+2] opacity:0.2f];
 }
 
 #pragma mark - 重写setter,getter方法
@@ -503,6 +532,10 @@
 
 - (void)setAxisLineNameFont:(UIFont *)axisLineNameFont{
     self.genericAxis.xLineNameFont = axisLineNameFont;
+}
+
+- (void)setAxisLineSelectNameFont:(UIFont *)axisLineSelectNameFont{
+    self.genericAxis.xLineSelectNameFont = axisLineSelectNameFont;
 }
 
 - (void)setAxisLineValueFont:(UIFont *)axisLineValueFont{

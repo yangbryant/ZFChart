@@ -16,6 +16,8 @@
 @optional
 
 - (void)genericAxisDidScroll:(UIScrollView *)scrollView;
+- (void)genericAxisWillBeginDragging:(UIScrollView *)scrollView userInfo:(id)userInfo;
+- (void)genericAxisDidEndDragging:(UIScrollView *)scrollView userInfo:(id)userInfo;
 
 @end
 
@@ -66,8 +68,10 @@
 /** y轴颜色(默认为黑色) */
 @property (nonatomic, strong) UIColor * yAxisColor;
 
-/** x轴上名称字体大小(默认为10.f) */
+/** x轴上名称字体大小(默认为8.f) */
 @property (nonatomic, strong) UIFont * xLineNameFont;
+/** x轴上名称字体放大后大小(默认为12.f) */
+@property (nonatomic, strong) UIFont * xLineSelectNameFont;
 /** y轴上数值字体大小(默认为10.f) */
 @property (nonatomic, strong) UIFont * yLineValueFont;
 

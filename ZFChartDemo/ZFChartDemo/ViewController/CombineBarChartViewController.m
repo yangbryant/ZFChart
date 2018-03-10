@@ -54,7 +54,7 @@
     //    self.barChart.yAxisColor = ZFWhite;
     self.barChart.xAxisColor = ZFClear;
     self.barChart.yAxisColor = ZFClear;
-    //    self.barChart.axisLineNameColor = ZFWhite;
+    self.barChart.axisLineNameColor = ZFWhite;
     //    self.barChart.axisLineValueColor = ZFWhite;
     //    self.barChart.backgroundColor = ZFPurple;
     self.barChart.isShowAxisArrows = NO;
@@ -62,7 +62,8 @@
     self.barChart.isShadow = NO;
     self.barChart.isAnimated = YES;
     self.barChart.separateLineStyle = kLineStyleDashLine;
-//    self.barChart.opacity = 0.2;
+    self.barChart.opacity = 0.2f;
+//    self.barChart.axisLineSelectNameFont = [UIFont systemFontOfSize:16.f];
     //    self.barChart.isMultipleColorInSingleBarChart = YES;
     //    self.barChart.separateLineDashPhase = 0.f;
     //    self.barChart.separateLineDashPattern = @[@(5), @(5)];
@@ -95,7 +96,7 @@
 }
 
 - (NSArray *)nameArrayInGenericChart:(ZFGenericChart *)chart{
-    return @[@"一年级", @"二年级", @"三年级", @"四年级", @"五年级", @"六年级", @"一年级", @"二年级", @"三年级", @"四年级", @"五年级", @"六年级", @"一年级", @"二年级", @"三年级", @"四年级", @"五年级", @"六年级"];
+    return @[@"12月1日", @"12月2日", @"12月17日", @"12月18日", @"12月19日", @"12月20日", @"12月2日", @"2月2日", @"12月23日", @"12月24日", @"12月25日", @"12月26日", @"12月27日", @"12月28日", @"12月29日", @"12月30日", @"12月31日", @"1月1日" ];
 }
 
 //- (NSArray *)colorArrayInGenericChart:(ZFGenericChart *)chart{
@@ -121,7 +122,7 @@
 //}
 
 - (void)genericChartDidScroll:(UIScrollView *)scrollView{
-    NSLog(@"当前偏移量 ------ %f", scrollView.contentOffset.x);
+//    NSLog(@"当前偏移量 ------ %f", scrollView.contentOffset.x);
 }
 
 #pragma mark - ZFCombineBarChartDelegate

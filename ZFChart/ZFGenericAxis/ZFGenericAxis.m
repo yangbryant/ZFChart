@@ -21,6 +21,8 @@
 @property (nonatomic, strong) ZFLabel * unitLabel;
 /** 存储分段线的数组 */
 @property (nonatomic, strong) NSMutableArray * sectionArray;
+/** 存储x轴Label的数组 */
+@property (nonatomic, strong) NSMutableArray * xLineLabelArray;
 
 @end
 
@@ -32,7 +34,8 @@
 - (void)commonInit{
     _yLineMinValue = 0;
     _yLineSectionCount = 5;
-    _xLineNameFont = [UIFont systemFontOfSize:10.f];
+    _xLineNameFont = [UIFont systemFontOfSize:8.f];
+    _xLineSelectNameFont = [UIFont systemFontOfSize:12.f];
     _yLineValueFont = [UIFont systemFontOfSize:10.f];
     _animationDuration = 1.f;
     _groupWidth = ZFAxisLineItemWidth;
@@ -113,13 +116,14 @@
 
             //label的中心点
             CGPoint label_center = CGPointMake(center_xPos, center_yPos);
-            CGRect rect = [self.xLineNameArray[i] stringWidthRectWithSize:CGSizeMake(width + _groupPadding * 0.5, height) font:_xLineNameFont];
+            CGRect rect = [self.xLineNameArray[i] stringWidthRectWithSize:CGSizeMake(width + _groupPadding, height) font:_xLineSelectNameFont];
             ZFLabel * label = [[ZFLabel alloc] initWithFrame:CGRectMake(0, 0, rect.size.width, rect.size.height)];
             label.text = self.xLineNameArray[i];
             label.textColor = _xLineNameColor;
             label.font = _xLineNameFont;
             label.center = label_center;
             [self.xAxisLine addSubview:label];
+            [self.xLineLabelArray addObject:label];
         }
     }
     
@@ -298,6 +302,7 @@
             [(ZFLabel *)view removeFromSuperview];
         }
     }
+    [self.xLineLabelArray removeAllObjects];
     
     NSArray * subviews2 = [NSArray arrayWithArray:self.yAxisLine.subviews];
     for (UIView * view in subviews2) {
@@ -401,6 +406,57 @@
     }
 }
 
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
+    CGFloat curCenterX = scrollView.contentOffset.x + scrollView.frame.size.width / 2.f;
+    
+    CGFloat fidx = (curCenterX - self.xAxisLine.xLineStartXPos - _groupPadding - _groupWidth * 0.5) / (_groupWidth + _groupPadding);
+    int index = (int) (fidx + 0.5);
+    ZFLabel *label = [_xLineLabelArray objectAtIndex:index];
+    label.font = _xLineNameFont;
+    
+    if ([self.genericAxisDelegate respondsToSelector:@selector(genericAxisWillBeginDragging:userInfo:)]) {
+        NSDictionary *dic = @{@"index": @(index)};
+        [self.genericAxisDelegate genericAxisWillBeginDragging:scrollView userInfo:dic];
+    }
+}
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
+    if (decelerate) return;
+    
+    CGFloat curCenterX = scrollView.contentOffset.x + scrollView.frame.size.width * 0.5f;
+    CGFloat fidx = (curCenterX - self.xAxisLine.xLineStartXPos - _groupPadding - _groupWidth * 0.5f) / (_groupWidth + _groupPadding);
+    int index = (int) (fidx + 0.5f);
+    ZFLabel *label = [_xLineLabelArray objectAtIndex:index];
+    label.font = _xLineSelectNameFont;
+    
+    CGFloat offsetX = label.center.x - scrollView.frame.size.width * 0.5f;
+    CGFloat offsetY = scrollView.contentOffset.y;
+    [scrollView setContentOffset:CGPointMake(offsetX, offsetY) animated:YES];
+    
+    if ([self.genericAxisDelegate respondsToSelector:@selector(genericAxisDidEndDragging:userInfo:)]) {
+        NSDictionary *dic = @{@"index": @(index)};
+        [self.genericAxisDelegate genericAxisDidEndDragging:scrollView userInfo:dic];
+    }
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
+    CGFloat curCenterX = scrollView.contentOffset.x + scrollView.frame.size.width * 0.5f;
+    CGFloat fidx = (curCenterX - self.xAxisLine.xLineStartXPos - _groupPadding - _groupWidth * 0.5f) / (_groupWidth + _groupPadding);
+    int index = (int) (fidx + 0.5f);
+
+    ZFLabel *label = [_xLineLabelArray objectAtIndex:index];
+    label.font = _xLineSelectNameFont;
+    
+    CGFloat offsetX = label.center.x - scrollView.frame.size.width * 0.5f;
+    CGFloat offsetY = scrollView.contentOffset.y;
+    [scrollView setContentOffset:CGPointMake(offsetX, offsetY) animated:YES];
+    
+    if ([self.genericAxisDelegate respondsToSelector:@selector(genericAxisDidEndDragging:userInfo:)]) {
+        NSDictionary *dic = @{@"index": @(index)};
+        [self.genericAxisDelegate genericAxisDidEndDragging:scrollView userInfo:dic];
+    }
+}
+
 #pragma mark - 重写setter,getter方法
 
 - (void)setFrame:(CGRect)frame{
@@ -484,6 +540,13 @@
     }
     
     return _sectionArray;
+}
+
+- (NSMutableArray *)xLineLabelArray{
+    if (!_xLineLabelArray) {
+        _xLineLabelArray = [NSMutableArray array];
+    }
+    return _xLineLabelArray;
 }
 
 @end
