@@ -182,10 +182,11 @@
  */
 - (void)strokePath{
     [self removeAllLayer];
-    [self.layer addSublayer:[self shapeLayer]];
     
     if (_gradientAttribute) {
         [self.layer addSublayer:[self barGradientColor]];
+    } else {
+        [self.layer addSublayer:[self shapeLayer]];
     }
 }
 

@@ -143,7 +143,7 @@
     gradientAttribute.colors = @[(id)ZFColor(64, 92, 255, 1).CGColor, (id)ZFColor(0, 255, 249, 1).CGColor];
     gradientAttribute.locations = @[@(0.01), @(0.99)];
     
-    return [NSArray arrayWithObjects:gradientAttribute, gradientAttribute, nil];
+    return [NSArray arrayWithObjects:gradientAttribute, nil];
 }
 
 - (void)barChart:(ZFCombineBarChart *)barChart didSelectBarAtGroupIndex:(NSInteger)groupIndex barIndex:(NSInteger)barIndex bar:(ZFCombineBar *)bar circleLabel:(ZFCircleLabel *)circleLabel{
