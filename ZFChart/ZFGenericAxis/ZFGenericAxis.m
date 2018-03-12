@@ -46,6 +46,7 @@
     _axisLineBackgroundColor = ZFWhite;
     _separateColor = ZFLightGray;
     _displayValueAtIndex = 0;
+    _axisLineIsCenter = NO;
     _isShowYAxis = YES;
     
     self.delegate = self;
@@ -369,10 +370,22 @@
         }
     }
     
-    if (_displayValueAtIndex < 0) {
-        self.contentOffset = CGPointMake(self.xAxisLine.xLineWidth + _displayValueAtIndex * (self.groupWidth + self.groupPadding) - self.groupPadding, self.contentOffset.y);
-    }else{
-        self.contentOffset = CGPointMake(_displayValueAtIndex * (self.groupWidth + self.groupPadding), self.contentOffset.y);
+    if (!_axisLineIsCenter) {
+        if (_displayValueAtIndex < 0) {
+            self.contentOffset = CGPointMake(self.xAxisLine.xLineWidth + _displayValueAtIndex * (self.groupWidth + self.groupPadding) - self.groupPadding, self.contentOffset.y);
+        }else{
+            self.contentOffset = CGPointMake(_displayValueAtIndex * (self.groupWidth + self.groupPadding), self.contentOffset.y);
+        }
+    } else {
+        CGFloat centerOffsetX = self.axisStartXPos + self.groupPadding + self.groupWidth * 0.5f - self.frame.size.width * 0.5f;
+        if (_displayValueAtIndex < 0) {
+            self.contentOffset = CGPointMake(self.xAxisLine.xLineWidth + _displayValueAtIndex * (self.groupWidth + self.groupPadding) - self.groupPadding + centerOffsetX, self.contentOffset.y);
+        }else{
+            self.contentOffset = CGPointMake(_displayValueAtIndex * (self.groupWidth + self.groupPadding) + centerOffsetX, self.contentOffset.y);
+        }
+        NSInteger index = _displayValueAtIndex < 0 ? self.xLineLabelArray.count + _displayValueAtIndex : _displayValueAtIndex;
+        ZFLabel *label = [_xLineLabelArray objectAtIndex:index];
+        label.font = _xLineSelectNameFont;
     }
 }
 
@@ -407,8 +420,9 @@
 }
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
-    CGFloat curCenterX = scrollView.contentOffset.x + scrollView.frame.size.width / 2.f;
+    if (!_axisLineIsCenter) return;
     
+    CGFloat curCenterX = scrollView.contentOffset.x + scrollView.frame.size.width / 2.f;
     CGFloat fidx = (curCenterX - self.xAxisLine.xLineStartXPos - _groupPadding - _groupWidth * 0.5) / (_groupWidth + _groupPadding);
     int index = (int) (fidx + 0.5);
     ZFLabel *label = [_xLineLabelArray objectAtIndex:index];
@@ -421,7 +435,7 @@
 }
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
-    if (decelerate) return;
+    if (decelerate || !_axisLineIsCenter) return;
     
     CGFloat curCenterX = scrollView.contentOffset.x + scrollView.frame.size.width * 0.5f;
     CGFloat fidx = (curCenterX - self.xAxisLine.xLineStartXPos - _groupPadding - _groupWidth * 0.5f) / (_groupWidth + _groupPadding);
@@ -440,6 +454,8 @@
 }
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
+    if (!_axisLineIsCenter) return;
+
     CGFloat curCenterX = scrollView.contentOffset.x + scrollView.frame.size.width * 0.5f;
     CGFloat fidx = (curCenterX - self.xAxisLine.xLineStartXPos - _groupPadding - _groupWidth * 0.5f) / (_groupWidth + _groupPadding);
     int index = (int) (fidx + 0.5f);

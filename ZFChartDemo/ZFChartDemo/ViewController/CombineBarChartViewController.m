@@ -62,7 +62,6 @@
     self.barChart.isShadow = NO;
     self.barChart.isAnimated = YES;
     self.barChart.separateLineStyle = kLineStyleDashLine;
-    self.barChart.opacity = 0.2f;
 //    self.barChart.axisLineSelectNameFont = [UIFont systemFontOfSize:16.f];
     //    self.barChart.isMultipleColorInSingleBarChart = YES;
     //    self.barChart.separateLineDashPhase = 0.f;
@@ -117,9 +116,9 @@
     return 3;
 }
 
-//- (NSInteger)axisLineStartToDisplayValueAtIndex:(ZFGenericChart *)chart{
-//    return -7;
-//}
+- (NSInteger)axisLineStartToDisplayValueAtIndex:(ZFGenericChart *)chart{
+    return 7;
+}
 
 - (void)genericChartDidScroll:(UIScrollView *)scrollView{
 //    NSLog(@"当前偏移量 ------ %f", scrollView.contentOffset.x);
@@ -151,10 +150,10 @@
     NSLog(@"第%ld组========第%ld个",(long)groupIndex,(long)barIndex);
     
     //可在此处进行bar被点击后的自身部分属性设置,可修改的属性查看ZFBar.h
-    bar.barColor = ZFGold;
-    bar.isAnimated = YES;
-    //    bar.opacity = 0.5;
-    [bar strokePath];
+//    bar.barColor = ZFGold;
+//    bar.isAnimated = YES;
+//    //    bar.opacity = 0.5;
+//    [bar strokePath];
     
     //可将isShowAxisLineValue设置为NO，然后执行下句代码进行点击才显示数值
     //    popoverLabel.hidden = NO;

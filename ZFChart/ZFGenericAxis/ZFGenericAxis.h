@@ -50,6 +50,8 @@
 @property (nonatomic, assign) CGFloat xLineNameLabelToXAxisLinePadding;
 /** y轴数值显示的段数 */
 @property (nonatomic, assign) NSInteger yLineSectionCount;
+/** 开始显示的Value位置(默认为NO, YES为中心, NO为靠左) */
+@property (nonatomic, assign) BOOL axisLineIsCenter;
 /** 开始显示的Value下标(默认为0) */
 @property (nonatomic, assign) NSInteger displayValueAtIndex;
 

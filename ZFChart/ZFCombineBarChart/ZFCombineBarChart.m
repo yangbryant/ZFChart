@@ -33,6 +33,8 @@
 @property (nonatomic, assign) CGFloat barVerticalPadding;
 /** value文本颜色 */
 @property (nonatomic, strong) UIColor * valueTextColor;
+/** 透明度数组(按距离中心位置: 0, 1, 2, >2) */
+@property (nonatomic, strong) NSArray * opacityArray;
 
 @end
 
@@ -50,6 +52,7 @@
     _barPadding = ZFAxisLinePaddingForBarLength;
     _barVerticalPadding = ZFAxisLinePaddingForBarLength;
     _valueTextColor = ZFBlack;
+    _opacityArray = [NSArray arrayWithObjects:@(1.0f), @(0.5f), @(0.2f), @(0.1f), nil];
 }
 
 - (instancetype)initWithFrame:(CGRect)frame{
@@ -105,14 +108,20 @@
             bar.barPadding = _barVerticalPadding;
             bar.isShadow = _isShadow;
             bar.isAnimated = self.isAnimated;
-            bar.opacity = self.opacity;
+//            bar.opacity = self.opacity;
+            NSInteger idx = labs((self.genericAxis.displayValueAtIndex + (NSInteger)[valueArray count]) % (NSInteger)[valueArray count] - i);
+            if (idx < _opacityArray.count - 1) {
+                bar.opacity = [_opacityArray[idx] floatValue];
+            } else {
+                bar.opacity = [_opacityArray[_opacityArray.count - 1] floatValue];
+            }
             bar.shadowColor = self.shadowColor;
             bar.gradientAttribute = _gradientColorArray ? _gradientColorArray.firstObject : nil;
             [bar strokePath];
             [self.barArray addObject:bar];
             [self.genericAxis addSubview:bar];
             
-//            [bar addTarget:self action:@selector(barAction:) forControlEvents:UIControlEventTouchUpInside];
+            [bar addTarget:self action:@selector(barAction:) forControlEvents:UIControlEventTouchUpInside];
         }
         
     }else if ([subObject isKindOfClass:[NSArray class]]){
@@ -151,14 +160,20 @@
                 bar.barPadding = _barVerticalPadding;
                 bar.isShadow = _isShadow;
                 bar.isAnimated = self.isAnimated;
-                bar.opacity = self.opacity;
+//                bar.opacity = self.opacity;
+                NSInteger idx = labs((self.genericAxis.displayValueAtIndex + (NSInteger)[subObject count]) % (NSInteger)[subObject count] - barIndex);
+                if (idx < _opacityArray.count - 1) {
+                    bar.opacity = [_opacityArray[idx] floatValue];
+                } else {
+                    bar.opacity = [_opacityArray[_opacityArray.count - 1] floatValue];
+                }
                 bar.shadowColor = self.shadowColor;
                 bar.gradientAttribute = _gradientColorArray ? _gradientColorArray.firstObject : nil;
                 [bar strokePath];
                 [self.barArray addObject:bar];
                 [self.genericAxis addSubview:bar];
 
-//            [bar addTarget:self action:@selector(barAction:) forControlEvents:UIControlEventTouchUpInside];
+                [bar addTarget:self action:@selector(barAction:) forControlEvents:UIControlEventTouchUpInside];
             }
         }
     }
@@ -268,7 +283,7 @@
             }
             
             bar.isAnimated = NO;
-            bar.opacity = self.opacity;
+//            bar.opacity = self.opacity;
             [bar strokePath];
             //复原
             bar.isAnimated = self.isAnimated;
@@ -469,6 +484,7 @@
     self.genericAxis.separateLineDashPhase = self.separateLineDashPhase;
     self.genericAxis.separateLineDashPattern = self.separateLineDashPattern;
     self.genericAxis.isShowYAxis = self.isShowYAxis;
+    self.genericAxis.axisLineIsCenter = YES;
     [self.genericAxis strokePath];
     [self drawBar:self.genericAxis.xLineValueArray];
     [self setValueLabelOnChart:self.genericAxis.xLineValueArray];
