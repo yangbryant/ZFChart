@@ -1,7 +1,6 @@
 language: objective-c
 
-xcode_project: ./ZFChartDemo/ZFChartDemo.xcodeproj
-
-xcode_scheme: ZFChartDemo
+script:
+  - xcodebuild clean build -sdk iphonesimulator -project ./ZFChartDemo/ZFChartDemo.xcodeproj -scheme ZFChartDemo CODE_SIGNING_REQUIRED=NO
 
 osx_image: xcode9.2
