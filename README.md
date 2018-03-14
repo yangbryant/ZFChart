@@ -1,4 +1,9 @@
 # ZFChart
+
+
+![Travis](https://img.shields.io/travis/yangbryant/ZFChart.svg)
+[![GitHub license](https://img.shields.io/github/license/yangbryant/ZFChart.svg)](https://github.com/yangbryant/ZFChart/blob/master/LICENSE)
+
 A simple chart library for iOS , contains barChart, lineChart, pieChart, waveChart, radarChart, cirqueChart. Thanks for your star if you like.
 
 模仿PNChart，Charts写的一个图表库，用法简单，暂时有柱状图，线状图，饼图，波浪图，雷达图，圆环图等类型，带动画效果，后续可能会更新新的类型，喜欢的欢迎star一个，有任何建议或问题可以加QQ群交流：451169423
@@ -505,10 +510,3 @@ A simple chart library for iOS , contains barChart, lineChart, pieChart, waveCha
         2017.10.20 ①修复线状图(ZFLineChart)渐变色图层重绘时旧图层不移除BUG
         
         2017.12.11 ①柱状图(ZFBarChart) 和 横向柱状图(ZFHorizontalBarChart) 新增isMultipleColorInSingleBarChart属性，该属性的作用在只有一组数据的情况下，bar是否开启独立颜色(默认为NO，该属性只在singleBarChart情况下有效)
-
-
-                   
-## 本人其他开源框架
-#### [ZFChart - 一款简单好用的图表库，目前有柱状，线状，饼图，波浪，雷达，圆环图类型](https://github.com/Zirkfied/ZFChart)
-#### [ZFScan - 仿微信 二维码/条形码 扫描](https://github.com/Zirkfied/ZFScan)
-#### [ZFDropDown - 简单大气的下拉列表框](https://github.com/Zirkfied/ZFDropDown)
