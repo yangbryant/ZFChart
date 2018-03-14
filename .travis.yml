@@ -1,0 +1,7 @@
+language: objective-c
+
+xcode_project: ./ZFChartDemo/ZFChartDemo.xcodeproj
+
+xcode_scheme: ZFChartDemo
+
+osx_image: xcode9.2
