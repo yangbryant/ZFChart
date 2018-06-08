@@ -13,8 +13,6 @@ CGFloat const ZFAxisLineItemWidth = 25.f;
 CGFloat const ZFAxisLinePaddingForGroupsLength = 20.f;
 CGFloat const ZFAxisLinePaddingForBarLength = 5.f;
 CGFloat const ZFAxisLineGapFromAxisLineMaxValueToArrow = 20.f;
-CGFloat const ZFAxisXLineRightGapVertical = 20.f;
-CGFloat const ZFAxisXLineRightGapHorizontal = 40.f;
 CGFloat const ZFAxisLineSectionLength = 6.f;
 CGFloat const ZFAxisLineSectionHeight = 1.f;
 CGFloat const ZFAxisLineStartRatio = 0.1f;
@@ -30,13 +28,10 @@ NSString * const ZFLineChartYPos = @"ZFLineChartYPos";
 NSString * const ZFLineChartMinYPos = @"ZFLineChartMinYPos";
 NSString * const ZFLineChartMaxYPos = @"ZFLineChartMaxYPos";
 NSString * const ZFLineChartIsHeightEqualZero = @"ZFLineChartIsHeightEqualZero";
-NSString * const ZFLineChartGradientLayer = @"ZFLineChartGradientLayer";
 
 NSString * const ZFWaveChartXPos = @"ZFWaveChartXPos";
 NSString * const ZFWaveChartYPos = @"ZFWaveChartYPos";
 NSString * const ZFWaveChartIsHeightEqualZero = @"ZFWaveChartIsHeightEqualZero";
-
-CGFloat const ZFCircleLabelDiameter = 20.f;
 
 CGFloat const NAVIGATIONBAR_HEIGHT = 64.f;
 CGFloat const TABBAR_HEIGHT = 49.f;

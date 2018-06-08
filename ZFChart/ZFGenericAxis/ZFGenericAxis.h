@@ -16,8 +16,6 @@
 @optional
 
 - (void)genericAxisDidScroll:(UIScrollView *)scrollView;
-- (void)genericAxisWillBeginDragging:(UIScrollView *)scrollView userInfo:(id)userInfo;
-- (void)genericAxisDidEndDragging:(UIScrollView *)scrollView userInfo:(id)userInfo;
 
 @end
 
@@ -50,8 +48,6 @@
 @property (nonatomic, assign) CGFloat xLineNameLabelToXAxisLinePadding;
 /** y轴数值显示的段数 */
 @property (nonatomic, assign) NSInteger yLineSectionCount;
-/** 开始显示的Value位置(默认为NO, YES为中心, NO为靠左) */
-@property (nonatomic, assign) BOOL axisLineIsCenter;
 /** 开始显示的Value下标(默认为0) */
 @property (nonatomic, assign) NSInteger displayValueAtIndex;
 
@@ -70,10 +66,8 @@
 /** y轴颜色(默认为黑色) */
 @property (nonatomic, strong) UIColor * yAxisColor;
 
-/** x轴上名称字体大小(默认为8.f) */
+/** x轴上名称字体大小(默认为10.f) */
 @property (nonatomic, strong) UIFont * xLineNameFont;
-/** x轴上名称字体放大后大小(默认为12.f) */
-@property (nonatomic, strong) UIFont * xLineSelectNameFont;
 /** y轴上数值字体大小(默认为10.f) */
 @property (nonatomic, strong) UIFont * yLineValueFont;
 
@@ -92,14 +86,6 @@
 /** 小数位数(默认为显示1位小数，当 kValueType = kValueTypeDecimal，该属性才有效) */
 @property (nonatomic, assign) NSInteger numberOfDecimal;
 
-/** 分割线线条样式(默认为kLineStyleRealLine) */
-@property (nonatomic, assign) kLineStyle separateLineStyle;
-/** 分割线在第一个虚线绘制的时候跳过多少个点(默认为0.f) */
-@property (nonatomic, assign) CGFloat separateLineDashPhase;
-/** 分割线虚线交替绘制参数(默认为  @[@(2), @(2)]  ) */
-@property (nonatomic, strong) NSArray<NSNumber *> * separateLineDashPattern;
-/** 是否显示Y坐标轴(默认为YES) */
-@property (nonatomic, assign) BOOL isShowYAxis;
 
 #pragma mark - readonly(只读)
 /** 获取坐标轴起点x值 */

@@ -9,7 +9,7 @@
 /// 带坐标轴的数据源
 
 #import <UIKit/UIKit.h>
-#import "ZFConst.h"
+#import "ZFPopoverLabel.h"
 @class ZFGenericChart;
 
 /*********************  ZFChartDataSource(ZFChart数据源方法)  *********************/
@@ -134,19 +134,11 @@
 
 /** 图表上label字体大小(默认为10.f) */
 @property (nonatomic, strong) UIFont * valueOnChartFont;
-/** y轴(普通图表) 或 x轴(横向图表) 上名称字体大小(默认为8.f) */
+/** y轴(普通图表) 或 x轴(横向图表) 上名称字体大小(默认为10.f) */
 @property (nonatomic, strong) UIFont * axisLineNameFont;
-/** x轴(横向图表) 上名称字体放大后大小(默认为12.f) */
-@property (nonatomic, strong) UIFont * axisLineSelectNameFont;
 /** y轴(普通图表) 或 x轴(横向图表) 上数值字体大小(默认为10.f) */
 @property (nonatomic, strong) UIFont * axisLineValueFont;
 
-/** 分割线线条样式(默认为kLineStyleRealLine) */
-@property (nonatomic, assign) kLineStyle separateLineStyle;
-/** 分割线在第一个虚线绘制的时候跳过多少个点(默认为0.f) */
-@property (nonatomic, assign) CGFloat separateLineDashPhase;
-/** 分割线虚线交替绘制参数(默认为  @[@(2), @(2)]  ) */
-@property (nonatomic, strong) NSArray<NSNumber *> * separateLineDashPattern;
 /** 图表透明度(范围0 ~ 1, 默认为1.f) */
 @property (nonatomic, assign) CGFloat opacity;
 /** x轴名称label与x轴之间的距离(默认为0.f)(横向图表无效) */
@@ -199,8 +191,6 @@
 @property (nonatomic, assign) BOOL isShowAxisArrows;
 /** 是否是横屏状态(默认为NO,只读参数,不可设置) */
 @property (nonatomic, readonly) BOOL isShowHorScreen;
-/** 是否显示Y坐标轴(默认为YES) */
-@property (nonatomic, assign) BOOL isShowYAxis;
 
 
 #pragma mark - 此方法不需理会(Ignore this method)

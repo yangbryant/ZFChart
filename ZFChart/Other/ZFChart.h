@@ -16,4 +16,3 @@
 #import "ZFHorizontalBarChart.h"
 #import "ZFRadarChart.h"
 #import "ZFCirqueChart.h"
-#import "ZFCombineBarChart.h"

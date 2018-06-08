@@ -9,6 +9,7 @@
 #import "ZFLine.h"
 #import <UIKit/UIKit.h>
 #import "ZFCircle.h"
+#import "ZFConst.h"
 #import "UIBezierPath+Zirkfied.h"
 #import "ZFCurveAttribute.h"
 
@@ -35,7 +36,7 @@
 }
 
 + (instancetype)lineWithValuePointArray:(NSMutableArray *)valuePointArray isAnimated:(BOOL)isAnimated shadowColor:(UIColor *)shadowColor linePatternType:(kLinePatternType)linePatternType padding:(CGFloat)padding{
-    return [[ZFLine alloc] initWithValuePointArray:valuePointArray isAnimated:isAnimated shadowColor:shadowColor linePatternType:linePatternType padding:padding];
+    return [[ZFLine alloc] initWithValuePointArray:valuePointArray isAnimated:isAnimated shadowColor:shadowColor linePatternType:linePatternType  padding:padding];
 }
 
 - (instancetype)initWithValuePointArray:(NSMutableArray *)valuePointArray isAnimated:(BOOL)isAnimated shadowColor:(UIColor *)shadowColor linePatternType:(kLinePatternType)linePatternType padding:(CGFloat)padding{
@@ -60,7 +61,6 @@
             CABasicAnimation * animation = [self animation];
             [self addAnimation:animation forKey:nil];
         }
-        
     }
     return self;
 }
@@ -109,29 +109,11 @@
                 [bezier addLineToPoint:CGPointMake([point[ZFLineChartXPos] floatValue], [point[ZFLineChartYPos] floatValue])];
             }
         }
-
+        
         return bezier;
     }
     
     return nil;
-}
-
-/**
- *  渐变色
- */
-- (CALayer *)lineGradientColor{
-    CALayer * layer = [CALayer layer];
-    layer.name = ZFLineChartGradientLayer;
-    CAGradientLayer * gradientLayer = [CAGradientLayer layer];
-    gradientLayer.frame = CGRectMake(0, 0, CGRectGetWidth(self.frame), CGRectGetHeight(self.frame));
-    gradientLayer.colors = _gradientAttribute.colors;
-    gradientLayer.locations = _gradientAttribute.locations;
-    gradientLayer.startPoint = _gradientAttribute.startPoint;
-    gradientLayer.endPoint = _gradientAttribute.endPoint;
-    [layer addSublayer:gradientLayer];
-    layer.mask = self;
-    
-    return layer;
 }
 
 #pragma mark - 动画
@@ -221,6 +203,15 @@
             attribute.pointArray = [NSMutableArray arrayWithArray:self.subArray];
             //a.a.a
             if ([previousPoint1[ZFLineChartIsHeightEqualZero] boolValue] == [currentPoint[ZFLineChartIsHeightEqualZero] boolValue] && [previousPoint2[ZFLineChartIsHeightEqualZero] boolValue] == [currentPoint[ZFLineChartIsHeightEqualZero] boolValue]) {
+                //当高度为0
+                if ([currentPoint[ZFLineChartIsHeightEqualZero] boolValue]) {
+                    attribute.isCurve = NO;
+                }else{
+                    attribute.isCurve = YES;
+                }
+                
+                //a.b.b
+            }else if (![previousPoint1[ZFLineChartIsHeightEqualZero] boolValue] == [currentPoint[ZFLineChartIsHeightEqualZero] boolValue] && [previousPoint2[ZFLineChartIsHeightEqualZero] boolValue] == [currentPoint[ZFLineChartIsHeightEqualZero] boolValue]){
                 //当高度为0
                 if ([currentPoint[ZFLineChartIsHeightEqualZero] boolValue]) {
                     attribute.isCurve = NO;

@@ -11,6 +11,22 @@
 #import <UIKit/UIKit.h>
 #import "ZFConst.h"
 
+/**
+ *  ZFPopoverLabel箭头方向
+ */
+typedef enum{
+    kPopoverLaberArrowsOrientationOnTop = 0,    //箭头在上方
+    kPopoverLaberArrowsOrientationOnBelow = 1   //箭头在下方
+}kPopoverLaberArrowsOrientation;
+
+/**
+ *  ZFPopoverLabel样式
+ */
+typedef enum{
+    kPopoverLabelPatternPopover = 0,   //气泡样式(默认)
+    kPopoverLabelPatternBlank = 1      //空白样式(原样式)
+}kPopoverLabelPattern;
+
 @interface ZFPopoverLabel : UIControl
 
 #pragma mark - 以下属性可在点击后根据自身需求改动

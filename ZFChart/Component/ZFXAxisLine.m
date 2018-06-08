@@ -36,7 +36,7 @@
  *  初始化默认变量
  */
 - (void)commonInit{
-    _xLineRightGap = _direction == kAxisDirectionVertical ? ZFAxisXLineRightGapVertical : ZFAxisXLineRightGapHorizontal;
+    _xLineRightGap = _direction == kAxisDirectionVertical ? 20.f : 40.f;
     _xLineWidth = self.frame.size.width - ZFAxisLineStartXPos - _xLineRightGap;
     _xLineHeight = 1.f;
     
@@ -85,6 +85,9 @@
  */
 - (UIBezierPath *)drawXAxisLine{
     UIBezierPath * bezier = [UIBezierPath bezierPathWithRect:CGRectMake(_xLineStartXPos, _xLineStartYPos, _xLineWidth, _xLineHeight)];
+    
+    
+    
     return bezier;
 }
 

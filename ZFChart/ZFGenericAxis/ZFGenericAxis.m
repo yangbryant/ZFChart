@@ -21,8 +21,6 @@
 @property (nonatomic, strong) ZFLabel * unitLabel;
 /** 存储分段线的数组 */
 @property (nonatomic, strong) NSMutableArray * sectionArray;
-/** 存储x轴Label的数组 */
-@property (nonatomic, strong) NSMutableArray * xLineLabelArray;
 
 @end
 
@@ -34,8 +32,7 @@
 - (void)commonInit{
     _yLineMinValue = 0;
     _yLineSectionCount = 5;
-    _xLineNameFont = [UIFont systemFontOfSize:8.f];
-    _xLineSelectNameFont = [UIFont systemFontOfSize:12.f];
+    _xLineNameFont = [UIFont systemFontOfSize:10.f];
     _yLineValueFont = [UIFont systemFontOfSize:10.f];
     _animationDuration = 1.f;
     _groupWidth = ZFAxisLineItemWidth;
@@ -46,8 +43,6 @@
     _axisLineBackgroundColor = ZFWhite;
     _separateColor = ZFLightGray;
     _displayValueAtIndex = 0;
-    _axisLineIsCenter = NO;
-    _isShowYAxis = YES;
     
     self.delegate = self;
     self.showsHorizontalScrollIndicator = NO;
@@ -117,14 +112,13 @@
 
             //label的中心点
             CGPoint label_center = CGPointMake(center_xPos, center_yPos);
-            CGRect rect = [self.xLineNameArray[i] stringWidthRectWithSize:CGSizeMake(width + _groupPadding, height) font:_xLineSelectNameFont];
+            CGRect rect = [self.xLineNameArray[i] stringWidthRectWithSize:CGSizeMake(width + _groupPadding * 0.5, height) font:_xLineNameFont];
             ZFLabel * label = [[ZFLabel alloc] initWithFrame:CGRectMake(0, 0, rect.size.width, rect.size.height)];
             label.text = self.xLineNameArray[i];
             label.textColor = _xLineNameColor;
             label.font = _xLineNameFont;
             label.center = label_center;
             [self.xAxisLine addSubview:label];
-            [self.xLineLabelArray addObject:label];
         }
     }
     
@@ -188,7 +182,7 @@
  */
 - (UIBezierPath *)drawXAxisLineSection:(NSInteger)i{
     UIBezierPath * bezier = [UIBezierPath bezierPath];
-    CGFloat xStartPos = self.xAxisLine.xLineStartXPos + _groupPadding + (_groupWidth + _groupPadding) * i + _groupWidth * 0.5;
+    CGFloat xStartPos = self.xAxisLine.xLineStartXPos + _groupPadding + (_groupWidth + _groupPadding) * i + _groupWidth;
     [bezier moveToPoint:CGPointMake(xStartPos, self.yAxisLine.yLineStartYPos)];
     [bezier addLineToPoint:CGPointMake(xStartPos, self.yLineMaxValueYPos)];
     
@@ -206,11 +200,6 @@
     CAShapeLayer * layer = [CAShapeLayer layer];
     layer.strokeColor = sectionColor.CGColor;
     layer.path = [self drawXAxisLineSection:i].CGPath;
-    
-    if (_separateLineStyle == kLineStyleDashLine) {
-        layer.lineDashPhase = _separateLineDashPhase;
-        layer.lineDashPattern = _separateLineDashPattern;
-    }
 
     return layer;
 }
@@ -261,11 +250,6 @@
     layer.strokeColor = sectionColor.CGColor;
     layer.path = [self drawYAxisLineSection:i sectionLength:sectionLength].CGPath;
     
-    if (_separateLineStyle == kLineStyleDashLine) {
-        layer.lineDashPhase = _separateLineDashPhase;
-        layer.lineDashPattern = _separateLineDashPattern;
-    }
-    
     return layer;
 }
 
@@ -303,7 +287,6 @@
             [(ZFLabel *)view removeFromSuperview];
         }
     }
-    [self.xLineLabelArray removeAllObjects];
     
     NSArray * subviews2 = [NSArray arrayWithArray:self.yAxisLine.subviews];
     for (UIView * view in subviews2) {
@@ -334,10 +317,6 @@
     [self removeAllSubviews];
     [self.sectionArray removeAllObjects];
     self.yAxisLine.yLineSectionCount = _yLineSectionCount;
-    
-    if (!self.isShowYAxis) {
-        self.yAxisLine.hidden = YES;
-    }
     
     if (self.xLineNameArray.count > 0) {
         //根据item个数,设置x轴长度
@@ -370,22 +349,10 @@
         }
     }
     
-    if (!_axisLineIsCenter) {
-        if (_displayValueAtIndex < 0) {
-            self.contentOffset = CGPointMake(self.xAxisLine.xLineWidth + _displayValueAtIndex * (self.groupWidth + self.groupPadding) - self.groupPadding, self.contentOffset.y);
-        }else{
-            self.contentOffset = CGPointMake(_displayValueAtIndex * (self.groupWidth + self.groupPadding), self.contentOffset.y);
-        }
-    } else {
-        CGFloat centerOffsetX = self.axisStartXPos + self.groupPadding + self.groupWidth * 0.5f - self.frame.size.width * 0.5f;
-        if (_displayValueAtIndex < 0) {
-            self.contentOffset = CGPointMake(self.xAxisLine.xLineWidth + _displayValueAtIndex * (self.groupWidth + self.groupPadding) - self.groupPadding + centerOffsetX, self.contentOffset.y);
-        }else{
-            self.contentOffset = CGPointMake(_displayValueAtIndex * (self.groupWidth + self.groupPadding) + centerOffsetX, self.contentOffset.y);
-        }
-        NSInteger index = _displayValueAtIndex < 0 ? self.xLineLabelArray.count + _displayValueAtIndex : _displayValueAtIndex;
-        ZFLabel *label = [_xLineLabelArray objectAtIndex:index];
-        label.font = _xLineSelectNameFont;
+    if (_displayValueAtIndex < 0) {
+        self.contentOffset = CGPointMake(self.xAxisLine.xLineWidth + _displayValueAtIndex * (self.groupWidth + self.groupPadding) - self.groupPadding, self.contentOffset.y);
+    }else{
+        self.contentOffset = CGPointMake(_displayValueAtIndex * (self.groupWidth + self.groupPadding), self.contentOffset.y);
     }
 }
 
@@ -416,60 +383,6 @@
     
     if ([self.genericAxisDelegate respondsToSelector:@selector(genericAxisDidScroll:)]) {
         [self.genericAxisDelegate genericAxisDidScroll:scrollView];
-    }
-}
-
-- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
-    if (!_axisLineIsCenter) return;
-    
-    CGFloat curCenterX = scrollView.contentOffset.x + scrollView.frame.size.width / 2.f;
-    CGFloat fidx = (curCenterX - self.xAxisLine.xLineStartXPos - _groupPadding - _groupWidth * 0.5) / (_groupWidth + _groupPadding);
-    int index = (int) (fidx + 0.5);
-    ZFLabel *label = [_xLineLabelArray objectAtIndex:index];
-    label.font = _xLineNameFont;
-    
-    if ([self.genericAxisDelegate respondsToSelector:@selector(genericAxisWillBeginDragging:userInfo:)]) {
-        NSDictionary *dic = @{@"index": @(index)};
-        [self.genericAxisDelegate genericAxisWillBeginDragging:scrollView userInfo:dic];
-    }
-}
-
-- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
-    if (decelerate || !_axisLineIsCenter) return;
-    
-    CGFloat curCenterX = scrollView.contentOffset.x + scrollView.frame.size.width * 0.5f;
-    CGFloat fidx = (curCenterX - self.xAxisLine.xLineStartXPos - _groupPadding - _groupWidth * 0.5f) / (_groupWidth + _groupPadding);
-    int index = (int) (fidx + 0.5f);
-    ZFLabel *label = [_xLineLabelArray objectAtIndex:index];
-    label.font = _xLineSelectNameFont;
-    
-    CGFloat offsetX = label.center.x - scrollView.frame.size.width * 0.5f;
-    CGFloat offsetY = scrollView.contentOffset.y;
-    [scrollView setContentOffset:CGPointMake(offsetX, offsetY) animated:YES];
-    
-    if ([self.genericAxisDelegate respondsToSelector:@selector(genericAxisDidEndDragging:userInfo:)]) {
-        NSDictionary *dic = @{@"index": @(index)};
-        [self.genericAxisDelegate genericAxisDidEndDragging:scrollView userInfo:dic];
-    }
-}
-
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
-    if (!_axisLineIsCenter) return;
-
-    CGFloat curCenterX = scrollView.contentOffset.x + scrollView.frame.size.width * 0.5f;
-    CGFloat fidx = (curCenterX - self.xAxisLine.xLineStartXPos - _groupPadding - _groupWidth * 0.5f) / (_groupWidth + _groupPadding);
-    int index = (int) (fidx + 0.5f);
-
-    ZFLabel *label = [_xLineLabelArray objectAtIndex:index];
-    label.font = _xLineSelectNameFont;
-    
-    CGFloat offsetX = label.center.x - scrollView.frame.size.width * 0.5f;
-    CGFloat offsetY = scrollView.contentOffset.y;
-    [scrollView setContentOffset:CGPointMake(offsetX, offsetY) animated:YES];
-    
-    if ([self.genericAxisDelegate respondsToSelector:@selector(genericAxisDidEndDragging:userInfo:)]) {
-        NSDictionary *dic = @{@"index": @(index)};
-        [self.genericAxisDelegate genericAxisDidEndDragging:scrollView userInfo:dic];
     }
 }
 
@@ -556,13 +469,6 @@
     }
     
     return _sectionArray;
-}
-
-- (NSMutableArray *)xLineLabelArray{
-    if (!_xLineLabelArray) {
-        _xLineLabelArray = [NSMutableArray array];
-    }
-    return _xLineLabelArray;
 }
 
 @end
