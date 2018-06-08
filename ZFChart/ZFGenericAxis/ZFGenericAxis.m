@@ -107,8 +107,9 @@
         for (NSInteger i = 0; i < self.xLineNameArray.count; i++) {
             CGFloat width = _groupWidth;
             CGFloat height = self.frame.size.height - self.xAxisLine.xLineStartYPos - _xLineNameLabelToXAxisLinePadding;
-            CGFloat center_xPos = self.xAxisLine.xLineStartXPos + _groupPadding + (_groupWidth + _groupPadding) * i + width * 0.5;
-            CGFloat center_yPos = self.yAxisLine.yLineStartYPos + _xLineNameLabelToXAxisLinePadding + height * 0.5;
+            CGFloat center_xPos = self.xAxisLine.xLineStartXPos + _groupPadding + (_groupWidth + _groupPadding) * i + width;
+//            CGFloat center_yPos = self.yAxisLine.yLineStartYPos + _xLineNameLabelToXAxisLinePadding + height * 0.5;
+            CGFloat center_yPos = self.yAxisLine.yLineEndYPos - _xLineNameLabelToXAxisLinePadding - _xLineNameFont.xHeight;
 
             //label的中心点
             CGPoint label_center = CGPointMake(center_xPos, center_yPos);
@@ -118,6 +119,58 @@
             label.textColor = _xLineNameColor;
             label.font = _xLineNameFont;
             label.center = label_center;
+            [self.xAxisLine addSubview:label];
+        }
+        int sum = 0;
+        for (int i = 0; i < self.xLineValueArray.count; i++) {
+            CGFloat width = _groupWidth;
+//            CGFloat height = self.frame.size.height - self.xAxisLine.xLineStartYPos - _xLineNameLabelToXAxisLinePadding;
+            CGFloat height = 5.0f;
+            CGFloat center_xPos1 = self.xAxisLine.xLineStartXPos + _groupPadding + (_groupWidth + _groupPadding) * i + width * 0.5;
+            CGFloat center_yPos1 = self.yAxisLine.yLineStartYPos + _xLineNameLabelToXAxisLinePadding + height * 0.5;
+            CGPoint label_center1 = CGPointMake(center_xPos1, center_yPos1);
+            CGRect rect = [self.xLineValueArray[i] stringWidthRectWithSize:CGSizeMake(width + _groupPadding * 0.5, height) font:[UIFont systemFontOfSize:4.0f]];
+            ZFLabel * label = [[ZFLabel alloc] initWithFrame:CGRectMake(0, 0, rect.size.width, rect.size.height)];
+            label.text = self.xLineValueArray[i];
+            label.textColor = _xLineNameColor;
+            label.font = [UIFont systemFontOfSize:4.0f];
+            label.center = label_center1;
+            [self.xAxisLine addSubview:label];
+            int value = [self.xLineValueArray[i] intValue];
+            sum += value;
+//            if (i == 0) {
+//                NSString *title = @"数量";
+//                CGFloat height = 5.0f;
+////                CGFloat center_xPos2 = self.xAxisLine.xLineStartXPos * 0.5;
+////                CGPoint label_center2 = CGPointMake(center_xPos2, center_yPos1);
+////                CGRect rect1 = [title stringWidthRectWithSize:CGSizeMake(width + _groupPadding * 0.5, height) font:[UIFont systemFontOfSize:5.0f]];
+//                ZFLabel * titleLbl = [[ZFLabel alloc] initWithFrame:CGRectMake(0, self.yAxisLine.yLineStartYPos + _xLineNameLabelToXAxisLinePadding, self.yAxisLine.yLineStartXPos, height)];
+//                titleLbl.text = title;
+//                titleLbl.textColor = _xLineNameColor;
+//                titleLbl.font = [UIFont systemFontOfSize:5.0f];
+//                titleLbl.textAlignment = NSTextAlignmentRight;
+////                titleLbl.center = label_center2;
+//                [self.xAxisLine addSubview:titleLbl];
+//            }
+        }
+        for (int i = 0; i < self.xLineValueArray.count; i++) {
+            CGFloat width = _groupWidth;
+            CGFloat height = 5;
+            CGFloat center_xPos1 = self.xAxisLine.xLineStartXPos + _groupPadding + (_groupWidth + _groupPadding) * i + width * 0.5;
+            CGFloat center_yPos1 = self.yAxisLine.yLineStartYPos + _xLineNameLabelToXAxisLinePadding + height * 2;
+            CGPoint label_center1 = CGPointMake(center_xPos1, center_yPos1);
+            float value = [self.xLineValueArray[i] floatValue];
+            float percent = value / sum * 100;
+            NSString *string = [NSString stringWithFormat:@"%.1f%%", percent];
+            if (percent > 0.0f && percent < 1.0f) {
+                string = @"<1%";
+            }
+            CGRect rect = [string stringWidthRectWithSize:CGSizeMake(width + _groupPadding * 0.5, height) font:[UIFont systemFontOfSize:4.0f]];
+            ZFLabel * label = [[ZFLabel alloc] initWithFrame:CGRectMake(0, 0, rect.size.width, rect.size.height)];
+            label.text = string;
+            label.textColor = _xLineNameColor;
+            label.font = [UIFont systemFontOfSize:4.0f];
+            label.center = label_center1;
             [self.xAxisLine addSubview:label];
         }
     }
@@ -135,7 +188,7 @@
     float valueAverage = (_yLineMaxValue - _yLineMinValue) / _yLineSectionCount;
     
     for (NSInteger i = 0; i <= _yLineSectionCount; i++) {
-        CGFloat width = self.yAxisLine.yLineStartXPos;
+        CGFloat width = self.yAxisLine.yLineStartXPos - 5;
         CGFloat height = self.yAxisLine.yLineSectionHeightAverage;
         CGFloat yStartPos = self.yAxisLine.yLineStartYPos - height / 2 - height * i;
         
@@ -147,7 +200,7 @@
         }else if (_valueType == kValueTypeDecimal){
             label.text = [NSNumber roundOffValue:@(valueAverage * i + _yLineMinValue) numberOfdecimal:_numberOfDecimal];
         }
-        
+        label.textAlignment = NSTextAlignmentRight;
         label.textColor = _yLineValueColor;
         label.font = _yLineValueFont;
         label.tag = ZFAxisLineValueLabelTag + i;

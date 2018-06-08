@@ -8,11 +8,11 @@
 
 #import "ZFConst.h"
 
-CGFloat const ZFAxisLineStartXPos = 50.f;
+CGFloat const ZFAxisLineStartXPos = 30.f;
 CGFloat const ZFAxisLineItemWidth = 25.f;
 CGFloat const ZFAxisLinePaddingForGroupsLength = 20.f;
 CGFloat const ZFAxisLinePaddingForBarLength = 5.f;
-CGFloat const ZFAxisLineGapFromAxisLineMaxValueToArrow = 20.f;
+CGFloat const ZFAxisLineGapFromAxisLineMaxValueToArrow = 0.f;//为了满足UI设计，更改为0，之前是20
 CGFloat const ZFAxisLineSectionLength = 6.f;
 CGFloat const ZFAxisLineSectionHeight = 1.f;
 CGFloat const ZFAxisLineStartRatio = 0.1f;
