@@ -125,15 +125,15 @@
         for (int i = 0; i < self.xLineValueArray.count; i++) {
             CGFloat width = _groupWidth;
 //            CGFloat height = self.frame.size.height - self.xAxisLine.xLineStartYPos - _xLineNameLabelToXAxisLinePadding;
-            CGFloat height = 5.0f;
+            CGFloat height = 11.0f;
             CGFloat center_xPos1 = self.xAxisLine.xLineStartXPos + _groupPadding + (_groupWidth + _groupPadding) * i + width * 0.5;
             CGFloat center_yPos1 = self.yAxisLine.yLineStartYPos + _xLineNameLabelToXAxisLinePadding + height * 0.5;
             CGPoint label_center1 = CGPointMake(center_xPos1, center_yPos1);
-            CGRect rect = [self.xLineValueArray[i] stringWidthRectWithSize:CGSizeMake(width + _groupPadding * 0.5, height) font:[UIFont systemFontOfSize:4.0f]];
+            CGRect rect = [self.xLineValueArray[i] stringWidthRectWithSize:CGSizeMake(width + _groupPadding * 0.5, height) font:[UIFont systemFontOfSize:10.0f]];
             ZFLabel * label = [[ZFLabel alloc] initWithFrame:CGRectMake(0, 0, rect.size.width, rect.size.height)];
             label.text = self.xLineValueArray[i];
             label.textColor = _xLineNameColor;
-            label.font = [UIFont systemFontOfSize:4.0f];
+            label.font = [UIFont systemFontOfSize:10.0f];
             label.center = label_center1;
             [self.xAxisLine addSubview:label];
             int value = [self.xLineValueArray[i] intValue];
@@ -155,7 +155,7 @@
         }
         for (int i = 0; i < self.xLineValueArray.count; i++) {
             CGFloat width = _groupWidth;
-            CGFloat height = 5;
+            CGFloat height = 11;
             CGFloat center_xPos1 = self.xAxisLine.xLineStartXPos + _groupPadding + (_groupWidth + _groupPadding) * i + width * 0.5;
             CGFloat center_yPos1 = self.yAxisLine.yLineStartYPos + _xLineNameLabelToXAxisLinePadding + height * 2;
             CGPoint label_center1 = CGPointMake(center_xPos1, center_yPos1);
@@ -165,11 +165,11 @@
             if (percent > 0.0f && percent < 1.0f) {
                 string = @"<1%";
             }
-            CGRect rect = [string stringWidthRectWithSize:CGSizeMake(width + _groupPadding * 0.5, height) font:[UIFont systemFontOfSize:4.0f]];
+            CGRect rect = [string stringWidthRectWithSize:CGSizeMake(width + _groupPadding * 0.5, height) font:[UIFont systemFontOfSize:10.0f]];
             ZFLabel * label = [[ZFLabel alloc] initWithFrame:CGRectMake(0, 0, rect.size.width, rect.size.height)];
             label.text = string;
             label.textColor = _xLineNameColor;
-            label.font = [UIFont systemFontOfSize:4.0f];
+            label.font = [UIFont systemFontOfSize:10.0f];
             label.center = label_center1;
             [self.xAxisLine addSubview:label];
         }
@@ -233,12 +233,22 @@
  *
  *  @return UIBezierPath
  */
-- (UIBezierPath *)drawXAxisLineSection:(NSInteger)i{
+- (UIBezierPath *)drawXAxisLineSection:(NSInteger)i imaginaryLine:(BOOL)isimaginaryLine{
     UIBezierPath * bezier = [UIBezierPath bezierPath];
     CGFloat xStartPos = self.xAxisLine.xLineStartXPos + _groupPadding + (_groupWidth + _groupPadding) * i + _groupWidth;
-    [bezier moveToPoint:CGPointMake(xStartPos, self.yAxisLine.yLineStartYPos)];
-    [bezier addLineToPoint:CGPointMake(xStartPos, self.yLineMaxValueYPos)];
-    
+    if (isimaginaryLine) {
+        int count = 25;
+        CGFloat height = (self.yAxisLine.yLineStartYPos - self.yAxisLine.yLineEndYPos) / count;
+        for (int x = 0; x < count; x ++) {
+            CGPoint startPoint = CGPointMake(xStartPos, self.yAxisLine.yLineStartYPos - x * height);
+            [bezier moveToPoint:startPoint];
+            CGPoint endPoint = CGPointMake(xStartPos, startPoint.y - height / 2);
+            [bezier addLineToPoint:endPoint];
+        }
+    } else {
+        [bezier moveToPoint:CGPointMake(xStartPos, self.yAxisLine.yLineStartYPos)];
+        [bezier addLineToPoint:CGPointMake(xStartPos, self.yAxisLine.yLineEndYPos)];
+    }
     return bezier;
 }
 
@@ -249,10 +259,14 @@
  *
  *  @return CAShapeLayer
  */
-- (CAShapeLayer *)xAxisLineSectionShapeLayer:(NSInteger)i sectionColor:(UIColor *)sectionColor{
+- (CAShapeLayer *)xAxisLineSectionShapeLayer:(NSInteger)i sectionColor:(UIColor *)sectionColor imaginaryLine:(BOOL)isimaginaryLine{
     CAShapeLayer * layer = [CAShapeLayer layer];
-    layer.strokeColor = sectionColor.CGColor;
-    layer.path = [self drawXAxisLineSection:i].CGPath;
+    if (isimaginaryLine) {
+        layer.strokeColor = sectionColor.CGColor;
+    } else {
+        layer.strokeColor = _yAxisColor.CGColor;
+    }
+    layer.path = [self drawXAxisLineSection:i imaginaryLine:isimaginaryLine].CGPath;
 
     return layer;
 }
@@ -282,12 +296,22 @@
  *
  *  @return UIBezierPath
  */
-- (UIBezierPath *)drawYAxisLineSection:(NSInteger)i sectionLength:(CGFloat)sectionLength{
+- (UIBezierPath *)drawYAxisLineSection:(NSInteger)i sectionLength:(CGFloat)sectionLength imaginaryLine:(BOOL)isimaginaryLine{
     UIBezierPath * bezier = [UIBezierPath bezierPath];
     CGFloat yStartPos = self.yAxisLine.yLineStartYPos - (self.yAxisLine.yLineHeight - ZFAxisLineGapFromAxisLineMaxValueToArrow) / _yLineSectionCount * (i + 1);
-    [bezier moveToPoint:CGPointMake(self.yAxisLine.yLineStartXPos, yStartPos)];
-    [bezier addLineToPoint:CGPointMake(self.yAxisLine.yLineStartXPos + sectionLength, yStartPos)];
-    
+    if (isimaginaryLine) {
+        int count = 90;
+        CGFloat width = sectionLength / count;
+        for (int x = 0; x < count; x++) {
+            CGPoint startPoint = CGPointMake(self.yAxisLine.yLineStartXPos + x * width, yStartPos);
+            [bezier moveToPoint:startPoint];
+            CGPoint endPoint = CGPointMake(startPoint.x + width / 2, yStartPos);
+            [bezier addLineToPoint:endPoint];
+        }
+    } else {
+        [bezier moveToPoint:CGPointMake(self.yAxisLine.yLineStartXPos, yStartPos)];
+        [bezier addLineToPoint:CGPointMake(self.yAxisLine.yLineStartXPos + sectionLength, yStartPos)];
+    }
     return bezier;
 }
 
@@ -298,10 +322,14 @@
  *
  *  @return CAShapeLayer
  */
-- (CAShapeLayer *)yAxisLineSectionShapeLayer:(NSInteger)i sectionLength:(CGFloat)sectionLength sectionColor:(UIColor *)sectionColor{
+- (CAShapeLayer *)yAxisLineSectionShapeLayer:(NSInteger)i sectionLength:(CGFloat)sectionLength sectionColor:(UIColor *)sectionColor imaginaryLine:(BOOL)isimaginaryLine{
     CAShapeLayer * layer = [CAShapeLayer layer];
-    layer.strokeColor = sectionColor.CGColor;
-    layer.path = [self drawYAxisLineSection:i sectionLength:sectionLength].CGPath;
+    if (!isimaginaryLine) {
+        layer.strokeColor = _yAxisColor.CGColor;
+    } else {
+        layer.strokeColor = sectionColor.CGColor;
+    }
+    layer.path = [self drawYAxisLineSection:i sectionLength:sectionLength imaginaryLine:isimaginaryLine].CGPath;
     
     return layer;
 }
@@ -388,7 +416,8 @@
     
     for (NSInteger i = 0; i < _yLineSectionCount; i++) {
         if (_isShowYLineSeparate) {
-            [self.layer addSublayer:[self yAxisLineSectionShapeLayer:i sectionLength:self.xLineWidth sectionColor:_separateColor]];
+            BOOL isImaginaryLine = i == _yLineSectionCount - 1 ? NO : YES;
+            [self.layer addSublayer:[self yAxisLineSectionShapeLayer:i sectionLength:self.xLineWidth sectionColor:_separateColor imaginaryLine:isImaginaryLine]];
         }else{
             UIView * sectionView = [self sectionView:i];
             [self addSubview:sectionView];
@@ -398,7 +427,8 @@
     
     for (NSInteger i = 0; i < self.xLineNameArray.count; i++) {
         if (_isShowXLineSeparate) {
-            [self.layer addSublayer:[self xAxisLineSectionShapeLayer:i sectionColor:_separateColor]];
+            BOOL isImaginaryLine = i == self.xLineNameArray.count - 1 ? NO : YES;
+            [self.layer addSublayer:[self xAxisLineSectionShapeLayer:i sectionColor:_separateColor imaginaryLine:isImaginaryLine]];
         }
     }
     

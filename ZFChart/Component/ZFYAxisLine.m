@@ -39,8 +39,8 @@
     _yLineStartXPos = ZFAxisLineStartXPos;
     _yLineStartYPos = _direction == kAxisDirectionVertical ? self.frame.size.height * ZFAxisLineVerticalEndRatio : self.frame.size.height * ZFAxisLineHorizontalEndRatio;
     _yLineEndXPos = ZFAxisLineStartXPos;
-    _yLineEndYPos = self.frame.size.height * ZFAxisLineStartRatio < TOPIC_HEIGHT + 20 ? TOPIC_HEIGHT + 20 : self.frame.size.height * ZFAxisLineStartRatio;
-    
+//    _yLineEndYPos = self.frame.size.height * ZFAxisLineStartRatio < TOPIC_HEIGHT + 20 ? TOPIC_HEIGHT + 20 : self.frame.size.height * ZFAxisLineStartRatio;
+    _yLineEndYPos = 35;
     _yLineWidth = 1.f;
     _yLineHeight = _yLineStartYPos - _yLineEndYPos;
     
