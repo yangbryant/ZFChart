@@ -236,19 +236,19 @@
 - (UIBezierPath *)drawXAxisLineSection:(NSInteger)i imaginaryLine:(BOOL)isimaginaryLine{
     UIBezierPath * bezier = [UIBezierPath bezierPath];
     CGFloat xStartPos = self.xAxisLine.xLineStartXPos + _groupPadding + (_groupWidth + _groupPadding) * i + _groupWidth;
-    if (isimaginaryLine) {
-        int count = 25;
-        CGFloat height = (self.yAxisLine.yLineStartYPos - self.yAxisLine.yLineEndYPos) / count;
-        for (int x = 0; x < count; x ++) {
-            CGPoint startPoint = CGPointMake(xStartPos, self.yAxisLine.yLineStartYPos - x * height);
-            [bezier moveToPoint:startPoint];
-            CGPoint endPoint = CGPointMake(xStartPos, startPoint.y - height / 2);
-            [bezier addLineToPoint:endPoint];
-        }
-    } else {
+//    if (isimaginaryLine) {
+//        int count = 25;
+//        CGFloat height = (self.yAxisLine.yLineStartYPos - self.yAxisLine.yLineEndYPos) / count;
+//        for (int x = 0; x < count; x ++) {
+//            CGPoint startPoint = CGPointMake(xStartPos, self.yAxisLine.yLineStartYPos - x * height);
+//            [bezier moveToPoint:startPoint];
+//            CGPoint endPoint = CGPointMake(xStartPos, startPoint.y - height / 2);
+//            [bezier addLineToPoint:endPoint];
+//        }
+//    } else {
         [bezier moveToPoint:CGPointMake(xStartPos, self.yAxisLine.yLineStartYPos)];
         [bezier addLineToPoint:CGPointMake(xStartPos, self.yAxisLine.yLineEndYPos)];
-    }
+//    }
     return bezier;
 }
 
@@ -263,6 +263,7 @@
     CAShapeLayer * layer = [CAShapeLayer layer];
     if (isimaginaryLine) {
         layer.strokeColor = sectionColor.CGColor;
+        layer.lineDashPattern = @[@4, @4];
     } else {
         layer.strokeColor = _yAxisColor.CGColor;
     }
@@ -299,19 +300,19 @@
 - (UIBezierPath *)drawYAxisLineSection:(NSInteger)i sectionLength:(CGFloat)sectionLength imaginaryLine:(BOOL)isimaginaryLine{
     UIBezierPath * bezier = [UIBezierPath bezierPath];
     CGFloat yStartPos = self.yAxisLine.yLineStartYPos - (self.yAxisLine.yLineHeight - ZFAxisLineGapFromAxisLineMaxValueToArrow) / _yLineSectionCount * (i + 1);
-    if (isimaginaryLine) {
-        int count = 90;
-        CGFloat width = sectionLength / count;
-        for (int x = 0; x < count; x++) {
-            CGPoint startPoint = CGPointMake(self.yAxisLine.yLineStartXPos + x * width, yStartPos);
-            [bezier moveToPoint:startPoint];
-            CGPoint endPoint = CGPointMake(startPoint.x + width / 2, yStartPos);
-            [bezier addLineToPoint:endPoint];
-        }
-    } else {
+//    if (isimaginaryLine) {
+//        int count = 90;
+//        CGFloat width = sectionLength / count;
+//        for (int x = 0; x < count; x++) {
+//            CGPoint startPoint = CGPointMake(self.yAxisLine.yLineStartXPos + x * width, yStartPos);
+//            [bezier moveToPoint:startPoint];
+//            CGPoint endPoint = CGPointMake(startPoint.x + width / 2, yStartPos);
+//            [bezier addLineToPoint:endPoint];
+//        }
+//    } else {
         [bezier moveToPoint:CGPointMake(self.yAxisLine.yLineStartXPos, yStartPos)];
         [bezier addLineToPoint:CGPointMake(self.yAxisLine.yLineStartXPos + sectionLength, yStartPos)];
-    }
+//    }
     return bezier;
 }
 
@@ -327,6 +328,7 @@
     if (!isimaginaryLine) {
         layer.strokeColor = _yAxisColor.CGColor;
     } else {
+        layer.lineDashPattern = @[@4, @4];
         layer.strokeColor = sectionColor.CGColor;
     }
     layer.path = [self drawYAxisLineSection:i sectionLength:sectionLength imaginaryLine:isimaginaryLine].CGPath;
