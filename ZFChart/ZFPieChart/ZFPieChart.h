@@ -103,6 +103,8 @@ typedef enum{
 @property (nonatomic, assign) BOOL isShadow;
 /** 是否带动画显示(默认为YES，带动画) */
 @property (nonatomic, assign) BOOL isAnimated;
+/** 是否带动画显示(默认为YES，带动画) */
+@property (nonatomic, assign) BOOL isTouchAble;
 /** 图表透明度(范围0 ~ 1, 默认为1.f) */
 @property (nonatomic, assign) CGFloat opacity;
 

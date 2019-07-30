@@ -254,6 +254,9 @@
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
     [super touchesBegan:touches withEvent:event];
+    if (!_isTouchAble) {
+        return;
+    }
     UITouch * touch = [touches anyObject];
     CGPoint point = [touch locationInView:self];
     if (point.y > _pieCenter.y + _radius + 60) {
